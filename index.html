@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#174a38">
+  <title>Golf Turnier-Jahresplanung V2</title>
+  <style>
+    :root{color-scheme:light;--forest:#174a38;--forest-dark:#103a2c;--green:#2e7759;--mint:#e7f1eb;--lime:#d3e99b;--paper:#f5f6f1;--ink:#1d2923;--muted:#718078;--line:#e0e6df;--gold:#a87516;--gold-bg:#fbf4e3;--shadow:0 16px 42px rgba(30,55,43,.08)}
+    *{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:15px/1.45 "Segoe UI",Arial,sans-serif}button,input,select{font:inherit}button,select{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #2e775955;outline-offset:2px}
+    .top{padding:22px clamp(16px,4vw,54px) 20px;color:white;background:var(--forest);border-bottom:4px solid var(--lime)}.topline{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:1600px;margin:auto}.brand{display:flex;align-items:center;gap:14px}.mark{display:grid;place-items:center;width:50px;height:50px;border-radius:16px;background:var(--lime);font-size:27px}.kicker{margin:0 0 3px;color:#c5d8ce;font-size:.7rem;font-weight:800;letter-spacing:.15em}.brand h1{margin:0;font-size:clamp(1.3rem,2vw,1.8rem);letter-spacing:-.03em}.excel-actions{display:flex;gap:9px;flex-wrap:wrap}.excel-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:9px 14px;border:1px solid #ffffff55;border-radius:10px;color:white;background:#ffffff12;font-weight:750}.excel-button:hover:not(:disabled){background:#ffffff22}.excel-button.primary{border-color:var(--lime);color:var(--forest);background:var(--lime)}.excel-button.primary:hover:not(:disabled){background:#e0f0b4}.excel-button:disabled{opacity:.5;cursor:not-allowed}.toolbar{display:flex;align-items:end;flex-wrap:wrap;gap:10px;max-width:1600px;margin:20px auto 0}.control{display:grid;gap:5px}.control label{color:#c5d8ce;font-size:.72rem;font-weight:700}.control select{height:40px;min-width:145px;padding:0 32px 0 11px;border:0;border-radius:8px;color:var(--ink);background:white}.toolbar button,.view-toggle{height:40px;padding:0 13px;border:1px solid #ffffff55;border-radius:8px;color:white;background:transparent;font-weight:700}.toolbar button:hover,.view-toggle:hover{background:#ffffff15}.toolbar .active{border-color:var(--lime);color:var(--forest);background:var(--lime)}.spacer{flex:1}.status{max-width:1600px;margin:14px auto 0;color:#d7e6dc;font-size:.83rem}.shell{max-width:1600px;margin:auto;padding:24px clamp(12px,3vw,42px)}.summary{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 18px}.summary h2{margin:0;font-size:clamp(1.4rem,2.4vw,2rem);letter-spacing:-.04em}.summary p{margin:0 0 3px;color:var(--green);font-size:.68rem;font-weight:800;letter-spacing:.14em}.count{padding:7px 12px;border-radius:99px;color:var(--forest);background:var(--mint);font-size:.8rem;font-weight:750;white-space:nowrap}.panel{padding:clamp(12px,2vw,24px);border:1px solid #e8ebe5;border-radius:18px;background:white;box-shadow:var(--shadow)}.year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.month-card{min-height:145px;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fff}.month-head{display:flex;justify-content:space-between;align-items:center;width:100%;padding:11px 13px;border:0;border-bottom:1px solid var(--line);color:var(--forest);background:#f8faf7;text-align:left;font-weight:800}.month-head:hover{background:var(--mint)}.month-body{display:grid;gap:5px;padding:9px}.empty{margin:4px;color:#97a39b;font-size:.78rem}.event{--player-color:#2e7759;display:flex;align-items:baseline;gap:6px;width:100%;min-width:0;padding:5px 7px;border:0;border-left:3px solid var(--player-color);border-radius:4px;color:#24352a;background:color-mix(in srgb,var(--player-color) 12%,white);text-align:left;font-size:.72rem;line-height:1.3}.event.alt{--player-color:#a87516;border-left-color:#a87516;background:var(--gold-bg)}.tag{flex:0 0 auto;color:var(--player-color);font-size:.63rem;font-weight:850}.players{flex:0 0 auto;max-width:45%;overflow:hidden;color:var(--player-color);font-size:.64rem;font-weight:750;text-overflow:ellipsis;white-space:nowrap}.title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 16px;padding:0;list-style:none}.legend li{display:flex;align-items:center;gap:7px;color:#526159;font-size:.78rem;font-weight:700}.swatch{width:12px;height:12px;border-radius:4px;background:var(--swatch)}.more{justify-self:start;padding:4px;border:0;color:var(--green);background:transparent;font-size:.72rem;font-weight:750}.month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.weekday{padding:7px 0;color:var(--muted);text-align:center;font-size:.72rem;font-weight:800;text-transform:uppercase}.day{min-width:0;min-height:108px;padding:6px;overflow:hidden;border:1px solid var(--line);border-radius:9px;background:white}.day.today{border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green)}.day.out{border-color:transparent;background:transparent}.daynum{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-weight:800}.today .daynum span:first-child{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;color:white;background:var(--green)}.day .event{display:block;margin:3px 0;padding:4px;font-size:.65rem}.day .players{display:block;max-width:100%;margin-bottom:2px}.notice{padding:13px 15px;border:1px solid #d5e1d7;border-radius:10px;color:#42564a;background:#f4faf4;font-size:.88rem}.notice.error{border-color:#e8c2be;color:#922e29;background:#fff3f1}.hidden{display:none!important}.footer{display:flex;justify-content:space-between;gap:12px;margin:14px 2px;color:#819087;font-size:.73rem}
+    @media(max-width:1100px){.year-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:760px){.topline{align-items:flex-start;flex-direction:column}.upload{align-self:stretch;justify-content:center}.toolbar{margin-top:15px}.control{flex:1 1 125px}.control select{width:100%;min-width:0}.toolbar button{flex:1 1 120px}.year-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.month-card{min-height:130px}.month-head{padding:9px}.month-body{padding:6px}.month-grid{gap:2px}.weekday{font-size:.61rem}.day{min-height:80px;padding:3px;border-radius:5px}.day .event{font-size:.59rem}.day .tag{display:none}.summary{align-items:flex-start}.footer{flex-direction:column}}@media(max-width:400px){.year-grid{grid-template-columns:1fr 1fr}.month-grid{grid-template-columns:repeat(7,minmax(38px,1fr));overflow-x:auto}.panel{overflow-x:auto}.month-card{min-height:120px}.players{font-size:.57rem}}
+    .dialog{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:16px;background:#10251caa;backdrop-filter:blur(3px)}.dialog.hidden{display:none}.dialog-card{display:grid;gap:13px;width:min(540px,100%);max-height:92vh;overflow:auto;padding:22px;border-radius:16px;background:white;box-shadow:0 24px 80px #0003}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.dialog-head h2{margin:0;color:var(--forest);font-size:1.35rem}.close-dialog{width:34px;height:34px;border:0;border-radius:50%;color:#526159;background:#edf2ee;font-size:1.3rem}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-field{display:grid;gap:6px;color:#526159;font-size:.8rem;font-weight:750}.form-field input,.form-field select,.form-field textarea{width:100%;min-height:40px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fbfcfa;font:inherit;font-weight:400}.form-field textarea{resize:vertical}.event-player-picks{margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:9px}.event-player-picks legend{padding:0 5px;color:#526159;font-size:.8rem;font-weight:750}.event-player-picks>div{display:flex;flex-wrap:wrap;gap:8px}.event-player-picks label{display:flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid var(--line);border-radius:99px;background:#f8faf7;font-size:.8rem}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:3px}.dialog-actions .excel-button{color:var(--forest);border-color:var(--line);background:#f8faf7}.dialog-actions .excel-button.primary{border-color:var(--lime);background:var(--lime)}
+    .search-input{width:min(280px,42vw);height:40px;padding:0 11px;border:1px solid #ffffff70;border-radius:8px;color:var(--ink);background:white}.search-input.hidden{display:none}
+    .search-results{margin:0 0 16px;padding:14px;border:1px solid #d5e1d7;border-radius:12px;background:#f8fbf8}.search-results.hidden{display:none}.search-results-title{margin:0 0 9px;color:var(--forest);font-size:.92rem}.search-result-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:7px}.search-result{display:grid;gap:3px;padding:9px 11px;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;background:white;text-align:left}.search-result:hover{border-color:#9bbda5;background:#f2f8f2}.search-result-date{color:var(--muted);font-size:.72rem;font-weight:750}.search-result-name{color:var(--ink);font-weight:800}.search-result-players{color:#5d6c62;font-size:.74rem}.search-empty,.search-more{margin:0;color:#526159;font-size:.85rem}
+    .three-months{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}.three-month-card{min-width:0;padding:10px;border:1px solid var(--line);border-radius:11px;background:#fff}.three-month-title{margin:0 0 8px;color:var(--forest);font-size:.92rem;font-weight:800}.three-month-card .month-grid{gap:3px}.three-month-card .weekday{font-size:.62rem}.three-month-card .day{min-height:84px;padding:3px;border-radius:6px}.three-month-card .day .event{display:block;margin:2px 0;padding:3px;font-size:.58rem}.three-month-card .day .players{display:block;max-width:100%;margin-bottom:1px;font-size:.53rem}.three-month-card .day .tag{display:none}
+    @media(max-width:650px){.three-month-card .day{min-height:74px}}
+    @media(max-width:760px){.excel-actions{width:100%}.excel-actions .excel-button{flex:1 1 140px}.form-row{grid-template-columns:1fr}}
+    .event-meta{flex:0 1 auto;max-width:35%;overflow:hidden;color:var(--muted);font-size:.61rem;text-overflow:ellipsis;white-space:nowrap}.day .event-meta{display:block;max-width:100%;margin-top:2px}.three-month-card .day .event-meta{display:none}
+    .action-menu{position:relative}.action-menu-panel{position:absolute;z-index:20;top:calc(100% + 7px);right:0;display:grid;gap:5px;min-width:220px;padding:8px;border:1px solid #dfe7df;border-radius:11px;background:white;box-shadow:0 12px 30px #10251c2b}.action-menu-panel.hidden{display:none}.action-menu-panel .excel-button{justify-content:flex-start;width:100%;min-height:38px;border:0;color:var(--ink);background:white;text-align:left}.action-menu-panel .excel-button:hover:not(:disabled){background:#f1f6f1}.action-menu-panel .excel-button:disabled{color:#8d978f;background:white}
+    .import-mode{display:grid;gap:5px;padding:7px;color:var(--muted);font-size:.75rem}.import-mode select{width:100%;min-height:36px;border:1px solid var(--line);border-radius:6px;padding:6px;color:var(--ink);background:white}.import-report{margin:0 0 16px;padding:12px 15px;border:1px solid var(--line);border-radius:8px;background:white;font-size:.85rem}.import-report.hidden{display:none}.import-report summary{cursor:pointer;font-weight:700;color:var(--forest)}.import-report ul{max-height:240px;overflow:auto;padding-left:22px;overflow-wrap:anywhere}
+    .snapshot-editor{width:min(600px,calc(100% - 24px));max-height:90vh;overflow:auto;margin:auto;padding:22px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:white;box-shadow:var(--shadow)}.snapshot-editor::backdrop{background:#10251caa}.snapshot-editor form,.snapshot-editor-fields{display:grid;gap:12px}.snapshot-editor-fields{margin:0;padding:0;border:0;min-width:0}.snapshot-editor-fields:disabled input,.snapshot-editor-fields:disabled textarea,.snapshot-editor-fields:disabled select{opacity:1;color:var(--ink);background:#f5f7f3}.snapshot-editor .dialog-head{margin-bottom:16px}.snapshot-editor .form-field{min-width:0}.snapshot-editor .event-player-picks input{width:auto;min-height:auto}.snapshot-login{margin:16px 0;padding:15px 0;border-block:1px solid var(--line)}.snapshot-login.hidden,.snapshot-editor .hidden{display:none}.snapshot-editor .error-message{margin:0;color:#a52d2d;font-size:.85rem}.snapshot-editor .history{margin:12px 0 0;color:var(--muted);font-size:.8rem;overflow-wrap:anywhere}.snapshot-draft-status{color:var(--muted);font-size:.85rem;margin:14px 0}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="topline"><div class="brand"><div class="mark" aria-hidden="true">⛳</div><div><p class="kicker">GOLF · TURNIERPLANUNG</p></div></div><div class="excel-actions"><button id="addEventButton" class="excel-button primary" type="button">Termin NEU</button><div class="action-menu"><button id="actionMenuButton" class="excel-button" type="button" aria-expanded="false" aria-controls="actionMenuPanel">Import / Export ▾</button><div id="actionMenuPanel" class="action-menu-panel hidden"><button id="importButton" class="excel-button" type="button">📂 Excel importieren</button><button id="exportButton" class="excel-button" type="button" disabled>⬇ Excel exportieren</button><button id="csvImportButton" class="excel-button" type="button">📄 CSV importieren</button><button id="csvExportButton" class="excel-button" type="button" disabled>⬇ CSV exportieren</button><button id="htmlExportButton" class="excel-button" type="button" disabled>🌐 HTML exportieren</button><button id="icsImportButton" class="excel-button" type="button">📅 Ferien/Feiertage (ICS)</button></div></div><input id="file" type="file" accept=".xlsx,.xls" hidden><input id="csvFile" type="file" accept=".csv,text/csv" hidden><input id="icsFile" type="file" accept=".ics,text/calendar" hidden></div></div>
+    <div class="toolbar">
+      <div class="control"><label for="year">Planungsjahr</label><select id="year"></select></div><div class="control"><label for="monthSelect">Monat</label><select id="monthSelect" aria-label="Monat auswählen"></select></div>
+      <div class="control"><label for="player">Spieler</label><select id="player"><option value="Alle">Alle Spieler</option></select></div>
+      <div class="control"><label for="type">Turnierart</label><select id="type"><option value="Alle">Alle Turnierarten</option><option value="Turnier">Turniere</option><option value="Alternative">Alternativen</option><option value="Allgemein">Allgemeine Termine</option></select></div>
+      <button id="prev" type="button" aria-label="Vorheriges Jahr">←</button><button id="next" type="button" aria-label="Nächstes Jahr">→</button>
+      <span class="spacer"></span><button id="searchButton" type="button" aria-expanded="false">🔎 Suche</button><input id="searchInput" class="search-input hidden" type="search" placeholder="Turnier, Spieler oder Notiz suchen" aria-label="Turniere durchsuchen"><button id="toggle" class="view-toggle" type="button">▦ Monatsansicht</button>
+    </div>
+    <p id="status" class="status">Importiere „golf-jahresplanung-2027.xlsx“ über Excel importieren. Beim lokalen Öffnen kann der Browser die Arbeitsmappe nicht automatisch laden.</p>
+  </header>
+  <main class="shell"><div id="notice" class="notice">Die Planung wird lokal im Browser angezeigt. Wähle deine Excel-Datei über „Excel importieren“ aus oder lege einen Termin an.</div><section id="content" class="hidden"><div class="summary"><div><p id="sourceLabel">TURNIERPLANUNG</p><h2 id="heading"></h2></div><span id="count" class="count"></span></div><ul id="legend" class="legend" aria-label="Farblegende"></ul><div class="panel"><div id="calendar"></div></div><div class="footer"><span>Alternative Turniere sind goldfarben markiert und bleiben gleichzeitig sichtbar.</span><span>Importierte und neue Termine werden automatisch lokal gespeichert.</span></div></section></main>
+  <div id="eventDialog" class="dialog hidden" role="dialog" aria-modal="true" aria-labelledby="eventDialogTitle"><form id="eventForm" class="dialog-card"><div class="dialog-head"><h2 id="eventDialogTitle">Termin hinzufügen</h2><button id="closeEvent" class="close-dialog" type="button" aria-label="Schließen">×</button></div><label class="form-field">Turnier / Termin<textarea id="eventTitle" rows="2" maxlength="240" required placeholder="z. B. Clubturnier"></textarea></label><div class="form-row"><label class="form-field">Von<input id="eventStart" type="date" required></label><label class="form-field">Bis<input id="eventEnd" type="date" required></label></div><div class="form-row"><label class="form-field">Terminart<select id="eventType"><option value="Turnier">Turnier</option><option value="Alternative">Alternativtermin</option><option value="Allgemein">Allgemeiner Termin</option></select></label><label class="form-field">Turnierkategorie<input id="eventTournamentCategory" type="text" placeholder="z. B. BGV, DGV, internat."></label></div><fieldset class="event-player-picks"><legend>Spieler</legend><div id="eventPlayerOptions"></div></fieldset><label class="form-field">Alternativgruppe (optional)<input id="eventGroup" type="text" maxlength="80" placeholder="z. B. Wochenende 1"></label><div class="form-row"><label class="form-field">Ort<input id="eventLocation" type="text" placeholder="Ort / Region"></label><label class="form-field">Golfclub<input id="eventClub" type="text" placeholder="Golfclub"></label></div><label class="form-field">Notiz<textarea id="eventNote" rows="3" placeholder="Optionale Informationen"></textarea></label><div class="dialog-actions"><button id="deleteEvent" class="excel-button delete-event hidden" type="button">Termin löschen</button><span class="dialog-action-spacer"></span><button id="cancelEvent" class="excel-button" type="button">Abbrechen</button><button class="excel-button primary" type="submit">Änderungen speichern</button></div></form></div>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script>
+    (() => {
+      const MONTHS=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+      const DAYS=["Mo","Di","Mi","Do","Fr","Sa","So"];
+      const PLAYER_COLORS=["#e87524","#df5f96","#3978c5","#8758a5","#388b8b","#b34c69","#6b7d32","#5969b0"];
+      const ALTERNATIVE_COLOR="#4f9b68";
+      const state={events:[],players:[],year:new Date().getFullYear(),month:new Date().getMonth(),view:"year",player:"Alle",type:"Alle",query:"",source:""};let editingIndex=null;
+      const $=id=>document.getElementById(id);
+      const searchResults=document.createElement("section");searchResults.id="searchResults";searchResults.className="search-results hidden";searchResults.setAttribute("aria-live","polite");$("content").insertBefore(searchResults,$("legend"));
+      const escape=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+      const norm=value=>String(value??"").normalize("NFKC").trim().toLocaleLowerCase("de-DE").replace(/\s+/g," ");
+      const keyDate=date=>`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+      function populateMonthSelect(){$("monthSelect").innerHTML=MONTHS.map((month,index)=>`<option value="${index}">${month}</option>`).join("");$("monthSelect").value=String(state.month)}
+      const STORAGE_KEY="golf-turnierplanung-current-v2";
+      function persistCurrentPlan(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({version:1,savedAt:new Date().toISOString(),events:state.events,players:state.players,year:state.year,month:state.month,view:state.view,source:state.source}));if(state.events.length&&$("htmlExportButton"))$("htmlExportButton").disabled=false;return true}catch(error){console.warn("Aktuelle Planung konnte nicht gespeichert werden.",error);$("status").textContent="Speichern im Browser nicht möglich – bitte Excel oder CSV exportieren.";return false}}
+      function restoreCurrentPlan(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");if(!saved||saved.version!==1||!Array.isArray(saved.events)||!saved.events.length)return false;state.events=saved.events.filter(event=>event&&/^\d{4}-\d{2}-\d{2}$/.test(event.start)&&/^\d{4}-\d{2}-\d{2}$/.test(event.end||event.start)&&event.title);if(!state.events.length)return false;state.players=[...new Set([...(Array.isArray(saved.players)?saved.players:[]),...state.events.flatMap(event=>event.playerNames||[])])].sort((a,b)=>a.localeCompare(b,"de"));state.year=Number.isInteger(saved.year)?saved.year:Number(state.events[0].start.slice(0,4));state.month=Number.isInteger(saved.month)?Math.max(0,Math.min(11,saved.month)):new Date().getMonth();state.view=["year","three","month"].includes(saved.view)?saved.view:"year";state.source=saved.source||"Browser-Speicher";populate();$("notice").classList.add("hidden");$("content").classList.remove("hidden");$("exportButton").disabled=false;$("csvExportButton").disabled=false;$("htmlExportButton").disabled=false;$("status").textContent=`Letzte gespeicherte Version · ${state.events.length} Termine · ${state.players.length} Spieler`;render();return true}catch(error){console.warn("Gespeicherte Planung konnte nicht geladen werden.",error);return false}}
+      function dateValue(value,row){if(value instanceof Date&&!Number.isNaN(value.valueOf()))return keyDate(value);if(typeof value==="number"){const parsed=XLSX.SSF.parse_date_code(value);if(!parsed)throw Error(`Excel-Zeile ${row}: Datum ungültig.`);return `${parsed.y}-${String(parsed.m).padStart(2,"0")}-${String(parsed.d).padStart(2,"0")}`}const text=String(value??"").trim();let m=text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);let y,mo,d;if(m)[,y,mo,d]=m.map(Number);else{m=text.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);if(!m)throw Error(`Excel-Zeile ${row}: Datum „${text}“ ungültig.`);[,d,mo,y]=m.map(Number)}const dt=new Date(y,mo-1,d);if(dt.getFullYear()!==y||dt.getMonth()!==mo-1||dt.getDate()!==d)throw Error(`Excel-Zeile ${row}: Datum ungültig.`);return `${y}-${String(mo).padStart(2,"0")}-${String(d).padStart(2,"0")}`}
+      function parseSheet(sheet,name){const rows=XLSX.utils.sheet_to_json(sheet,{header:1,raw:true,defval:""});const headers=(rows[0]||[]).map(norm);const col=(...labels)=>headers.findIndex(h=>labels.includes(h));const start=col("von (yyyy-mm-dd)","von","startdatum"),end=col("bis (yyyy-mm-dd)","bis","enddatum"),who=col("spieler / kategorie","spieler/kategorie","spieler","kategorie"),title=col("termin","titel","turnier"),note=col("notiz","bemerkung"),alternativeGroup=col("alternativgruppe","alternative gruppe");if(start<0||end<0||who<0||title<0)throw Error(`Tabellenblatt „${name}“: Erwartete Spalten „Von“, „Bis“, „Spieler / Kategorie“ und „Termin“ fehlen.`);const raw=[];const players=new Set();const warnings=[];rows.slice(1).forEach((row,i)=>{const rowNo=i+2;if(!row[start]&&!row[title])return;try{const from=dateValue(row[start],rowNo),to=row[end]?dateValue(row[end],rowNo):from;if(to<from)throw Error(`Zeile ${rowNo}: Enddatum vor Startdatum.`);const source=String(row[who]||"Allg.").trim(),alternativeEvent=norm(source)==="altern.",general=norm(source)==="allg.",playerNames=alternativeEvent||general?[]:[source];playerNames.forEach(p=>players.add(p));const name=String(row[title]||"").trim();if(name)raw.push({start:from,end:to,title:name,playerNames,alternative:alternativeEvent,general,alternativeGroup:String(row[alternativeGroup]||"").trim(),note:String(row[note]||"").trim(),sourceRow:rowNo})}catch(err){warnings.push(err.message)}});const map=new Map();raw.forEach(event=>{const key=[event.start,event.end,norm(event.title),event.alternative?"alternative":"regular",norm(event.alternativeGroup)].join("|");const previous=map.get(key);if(!previous)map.set(key,{...event,playerNames:[...event.playerNames]});else{previous.playerNames=[...new Set([...previous.playerNames,...event.playerNames])];previous.note=[...new Set([previous.note,event.note].filter(Boolean))].join("\n");previous.sourceRow+=`, ${event.sourceRow}`}});return{events:[...map.values()],players:[...players],warnings,name}}
+      function loadFile(file) { return loadFiles([file]); }
+      let excelImportBusy = false;
+      const excelMode = document.createElement("label");
+      excelMode.className = "import-mode";
+      excelMode.innerHTML = 'Importmodus<select id="excelImportMode"><option value="append">Termine ergänzen</option><option value="replace">Planung ersetzen</option></select>';
+      $("actionMenuPanel").prepend(excelMode);
+      const htmlImportButton = document.createElement("button");
+      htmlImportButton.id = "htmlImportButton";
+      htmlImportButton.className = "excel-button";
+      htmlImportButton.type = "button";
+      htmlImportButton.textContent = "HTML importieren";
+      $("actionMenuPanel").insertBefore(htmlImportButton, $("htmlExportButton"));
+      const htmlFile = document.createElement("input");
+      htmlFile.id = "htmlFile";
+      htmlFile.type = "file";
+      htmlFile.accept = ".html,.htm,text/html";
+      htmlFile.multiple = true;
+      htmlFile.hidden = true;
+      $("file").after(htmlFile);
+      htmlImportButton.addEventListener("click", () => htmlFile.click());
+      htmlFile.addEventListener("change", async event => {
+        const files = [...(event.target.files || [])];
+        try { if (files.length) await importHtmlFiles(files); }
+        finally { event.target.value = ""; }
+      });
+      const importReport = document.createElement("details");
+      importReport.className = "import-report hidden";
+      importReport.id = "excelImportReport";
+      $("content").before(importReport);
+      $("file").multiple = true;
+      function parseHtmlPlan(text, fileName) {
+        const template = document.createElement("template");
+        template.innerHTML = text;
+        const payloadNode = template.content.querySelector('script#snapshot-data[type="application/json"]');
+        if (!payloadNode) throw Error("Keine exportierte Golfplanung gefunden: Der Datenblock snapshot-data fehlt.");
+        let payload;
+        try { payload = JSON.parse(payloadNode.textContent); }
+        catch { throw Error("Der eingebettete HTML-Datenblock enthält kein gültiges JSON."); }
+        if (!payload || !Array.isArray(payload.events)) throw Error("Der HTML-Datenblock enthält keine Terminliste.");
+        const textField = (value, label) => {
+          if (value == null) return "";
+          if (typeof value !== "string" && typeof value !== "number") throw Error(`${label}: Ungültiger Feldtyp.`);
+          return String(value).trim();
+        };
+        const events = [], warnings = [], players = new Set(["Dad"]);
+        if (Array.isArray(payload.players)) payload.players.forEach(player => { if (typeof player === "string" && player.trim()) players.add(player.trim()); });
+        payload.events.forEach((raw, index) => {
+          try {
+            if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw Error("Kein gültiger Datensatz.");
+            const title = textField(raw.title, "Termin");
+            if (!title) throw Error("Terminbezeichnung fehlt.");
+            const start = dateValue(textField(raw.start ?? raw.startDate, "Startdatum"), index + 1);
+            const endValue = textField(raw.end ?? raw.endDate, "Enddatum");
+            const end = endValue ? dateValue(endValue, index + 1) : start;
+            if (end < start) throw Error("Enddatum liegt vor Startdatum.");
+            if (raw.playerNames != null && !Array.isArray(raw.playerNames)) throw Error("Spielerzuordnung ist keine Liste.");
+            const playerNames = [...new Set((raw.playerNames || []).map(player => {
+              if (typeof player !== "string") throw Error("Spielername ist kein Text.");
+              return player.trim();
+            }).filter(Boolean))];
+            const alternative = raw.alternative === true || raw.isAlternative === true;
+            const general = typeof raw.general === "boolean" ? raw.general : !alternative && !playerNames.length;
+            const item = { start, end, title, playerNames, alternative, general,
+              tournamentCategory: textField(raw.tournamentCategory, "Turnierkategorie"),
+              alternativeGroup: textField(raw.alternativeGroup, "Alternativgruppe"),
+              location: textField(raw.location, "Ort"), golfClub: textField(raw.golfClub, "Golfclub"),
+              note: textField(raw.note ?? raw.notes, "Notiz"), sourceFile: textField(raw.sourceFile, "Quelldatei") || fileName,
+              sourceSheet: textField(raw.sourceSheet, "Quellblatt"), sourceRow: textField(raw.sourceRow, "Quellzeile") || index + 1,
+              sourceHtmlFile: fileName };
+            if (typeof raw.editedBy === "string") item.editedBy = raw.editedBy;
+            if (typeof raw.editedAt === "string" && Number.isFinite(Date.parse(raw.editedAt))) item.editedAt = raw.editedAt;
+            events.push(item);
+            playerNames.forEach(player => players.add(player));
+          } catch (error) { warnings.push(`${fileName}, Datensatz ${index + 1}: ${error.message}`); }
+        });
+        return { events, players: [...players], warnings };
+      }
+      async function importHtmlFiles(files) {
+        if (excelImportBusy) return;
+        excelImportBusy = true;
+        const controls = ["htmlImportButton", "htmlFile", "importButton", "file", "csvImportButton", "icsImportButton", "excelImportMode"];
+        controls.forEach(id => { $(id).disabled = true; });
+        const mode = $("excelImportMode").value;
+        const incoming = [], warnings = [], loadedNames = [], importedPlayers = new Set(["Dad"]);
+        try {
+          for (const file of files) {
+            try {
+              if (!/\.html?$/i.test(file.name)) throw Error("Bitte eine HTML- oder HTM-Datei auswählen.");
+              if (file.size > 40 * 1024 * 1024) throw Error("Maximal 40 MB je HTML-Datei.");
+              $("status").textContent = `${file.name} wird eingelesen …`;
+              await new Promise(resolve => setTimeout(resolve, 0));
+              const parsed = parseHtmlPlan(await file.text(), file.name);
+              for (const item of parsed.events) incoming.push(item);
+              for (const warning of parsed.warnings) warnings.push(warning);
+              parsed.players.forEach(player => importedPlayers.add(player));
+              if (parsed.events.length) loadedNames.push(file.name);
+              else warnings.push(`${file.name}: Keine gültigen Termine vorhanden.`);
+            } catch (error) { warnings.push(`${file.name}: ${error.message}`); }
+          }
+          importReport.classList.toggle("hidden", !warnings.length);
+          importReport.innerHTML = `<summary>${warnings.length} HTML-Importhinweise</summary><ul>${warnings.slice(0, 100).map(warning => `<li>${escape(warning)}</li>`).join("")}</ul>${warnings.length > 100 ? `<p>${warnings.length - 100} weitere Hinweise</p>` : ""}`;
+          if (!incoming.length) {
+            $("notice").className = "notice error";
+            $("notice").textContent = "Keine gültigen Termine in den HTML-Dateien gefunden. Die bisherige Planung bleibt erhalten.";
+            $("status").textContent = `HTML-Import: ${warnings.length} Hinweise`;
+            return;
+          }
+          if (mode === "replace" && state.events.length && !confirm(`${incoming.length} Termine aus ${loadedNames.length} HTML-Dateien übernehmen und die vorhandene V2-Planung ersetzen?`)) {
+            $("status").textContent = "HTML-Import abgebrochen. Die Planung bleibt unverändert.";
+            return;
+          }
+          state.events = mode === "replace" ? incoming : state.events.concat(incoming);
+          state.players = [...new Set([...(mode === "append" ? state.players : []), ...importedPlayers, ...state.events.flatMap(event => event.playerNames || [])])].sort((first, second) => first.localeCompare(second, "de"));
+          state.source = [...new Set([...(mode === "append" && state.source ? [state.source] : []), ...loadedNames])].join(" · ");
+          const years = new Set(state.events.map(event => Number(event.start.slice(0, 4))));
+          if (mode === "replace" || !years.has(state.year)) state.year = Number(incoming[0].start.slice(0, 4));
+          state.month = Number(incoming[0].start.slice(5, 7)) - 1;
+          state.player = "Alle"; state.type = "Alle"; state.query = ""; state.view = "year";
+          $("searchInput").value = "";
+          $("notice").classList.add("hidden"); $("content").classList.remove("hidden");
+          $("exportButton").disabled = false; $("csvExportButton").disabled = false; $("htmlExportButton").disabled = false;
+          render();
+          const saved = persistCurrentPlan();
+          $("status").textContent = `${loadedNames.length} HTML-Dateien · ${incoming.length} Termine ${mode === "append" ? "ergänzt" : "übernommen"} · ${state.events.length} Termine gesamt${warnings.length ? ` · ${warnings.length} Hinweise` : ""}${saved ? "" : " · Browser-Speicher nicht verfügbar; bitte exportieren"}`;
+        } catch (error) {
+          $("notice").className = "notice error";
+          $("notice").textContent = `HTML-Import fehlgeschlagen: ${error.message}`;
+        } finally {
+          excelImportBusy = false;
+          controls.forEach(id => { $(id).disabled = false; });
+        }
+      }
+      function parseExcelSheet(sheet, sheetName, fileName) {
+        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true, defval: "", blankrows: true });
+        const aliases = {
+          start: ["von (yyyy-mm-dd)", "von", "startdatum", "datum", "beginn"],
+          end: ["bis (yyyy-mm-dd)", "bis", "enddatum", "ende"],
+          player: ["spieler / kategorie", "spieler/kategorie", "spieler", "kategorie"],
+          title: ["termin", "titel", "turnier", "turniername", "veranstaltung"],
+          category: ["turnierkategorie", "turnier kategorie", "turnierart"],
+          note: ["notiz", "notizen", "bemerkung", "bemerkungen"],
+          group: ["alternativgruppe", "alternative gruppe"],
+          location: ["ort", "ort / region", "location", "spielort"],
+          club: ["gc", "golfclub", "golf club", "club"],
+        };
+        let header = null;
+        rows.slice(0, 30).forEach((row, index) => {
+          const names = row.map(norm);
+          const columns = Object.fromEntries(Object.entries(aliases).map(([field, namesForField]) => [field, names.findIndex(name => namesForField.includes(name))]));
+          const score = Object.values(columns).filter(column => column >= 0).length;
+          if (columns.start >= 0 && columns.title >= 0 && (!header || score > header.score)) header = { index, columns, score };
+        });
+        if (!header) return { events: [], warnings: [`${fileName} / ${sheetName}: Kein Terminblatt mit Datum und Termin erkannt.`], rows: 0 };
+        const events = [], warnings = [], columns = header.columns;
+        for (let index = header.index + 1; index < rows.length; index += 1) {
+          const row = rows[index];
+          if (!Object.values(columns).some(column => column >= 0 && String(row[column] ?? "").trim())) continue;
+          if (aliases.start.includes(norm(row[columns.start])) && aliases.title.includes(norm(row[columns.title]))) continue;
+          try {
+            const title = String(row[columns.title] ?? "").trim();
+            if (!title) throw Error("Terminbezeichnung fehlt.");
+            const start = dateValue(row[columns.start], index + 1);
+            const end = row[columns.end] ? dateValue(row[columns.end], index + 1) : start;
+            if (end < start) throw Error("Enddatum liegt vor Startdatum.");
+            const player = String(row[columns.player] || "Allg.").trim();
+            const alternative = ["altern.", "alternative"].includes(norm(player));
+            const general = ["allg.", "allgemein"].includes(norm(player));
+            events.push({ start, end, title, playerNames: alternative || general ? [] : [player], alternative, general,
+              tournamentCategory: String(row[columns.category] ?? "").trim(), alternativeGroup: String(row[columns.group] ?? "").trim(),
+              location: String(row[columns.location] ?? "").trim(), golfClub: String(row[columns.club] ?? "").trim(),
+              note: String(row[columns.note] ?? "").trim(), sourceFile: fileName, sourceSheet: sheetName, sourceRow: index + 1 });
+          } catch (error) { warnings.push(`${fileName} / ${sheetName}, Zeile ${index + 1}: ${error.message}`); }
+        }
+        const grouped = new Map();
+        events.forEach(event => {
+          const key = [event.start, event.end, norm(event.title), event.alternative ? "alternative" : "regular", norm(event.alternativeGroup), norm(event.tournamentCategory), norm(event.location), norm(event.golfClub)].join("|");
+          const previous = grouped.get(key);
+          if (!previous) grouped.set(key, event);
+          else {
+            previous.playerNames = [...new Set([...previous.playerNames, ...event.playerNames])];
+            previous.note = [...new Set([previous.note, event.note].filter(Boolean))].join("\n");
+            previous.sourceRow = `${previous.sourceRow}, ${event.sourceRow}`;
+          }
+        });
+        return { events: [...grouped.values()], warnings, rows: events.length };
+      }
+      async function loadFiles(files) {
+        if (excelImportBusy || !files.length) return;
+        if (!window.XLSX) { $("notice").className = "notice error"; $("notice").textContent = "Der Excel-Leser konnte nicht geladen werden. Bitte Internetverbindung prüfen."; return; }
+        excelImportBusy = true;
+        $("importButton").disabled = true;
+        $("htmlImportButton").disabled = true;
+        $("htmlFile").disabled = true;
+        $("file").disabled = true;
+        $("excelImportMode").disabled = true;
+        const mode = $("excelImportMode").value;
+        const incoming = [], warnings = [], loadedNames = [];
+        let sheetCount = 0, rowCount = 0;
+        try {
+          for (const file of files) {
+            try {
+              const workbook = XLSX.read(await file.arrayBuffer(), { type: "array", cellDates: true });
+              let fileEvents = 0;
+              for (const sheetName of workbook.SheetNames) {
+                $("status").textContent = `${file.name} / ${sheetName} wird eingelesen …`;
+                await new Promise(resolve => setTimeout(resolve, 0));
+                try {
+                  const parsed = parseExcelSheet(workbook.Sheets[sheetName], sheetName, file.name);
+                  for (const event of parsed.events) incoming.push(event);
+                  for (const warning of parsed.warnings) warnings.push(warning);
+                  rowCount += parsed.rows;
+                  if (parsed.events.length) { sheetCount += 1; fileEvents += parsed.events.length; }
+                } catch (error) { warnings.push(`${file.name} / ${sheetName}: ${error.message}`); }
+              }
+              if (fileEvents) loadedNames.push(file.name);
+            } catch (error) { warnings.push(`${file.name}: ${error.message}`); }
+          }
+          importReport.classList.toggle("hidden", !warnings.length);
+          importReport.innerHTML = `<summary>${warnings.length} Importhinweise</summary><ul>${warnings.slice(0, 100).map(warning => `<li>${escape(warning)}</li>`).join("")}</ul>${warnings.length > 100 ? `<p>${warnings.length - 100} weitere Hinweise</p>` : ""}`;
+          if (!incoming.length) { $("notice").className = "notice error"; $("notice").textContent = "Keine gültigen Termine gefunden. Die bisherige Planung bleibt erhalten."; $("status").textContent = `Excel-Import: ${warnings.length} Hinweise`; return; }
+          if (mode === "replace" && state.events.length && !confirm(`${incoming.length} Termine aus ${loadedNames.length} Dateien übernehmen und die vorhandene Planung ersetzen?`)) { $("status").textContent = "Excel-Import abgebrochen. Die Planung bleibt unverändert."; return; }
+          state.events = mode === "replace" ? incoming : state.events.concat(incoming);
+          state.players = [...new Set(state.events.flatMap(event => event.playerNames || []))].sort((first, second) => first.localeCompare(second, "de"));
+          state.source = [...new Set([...(mode === "append" && state.source ? [state.source] : []), ...loadedNames])].join(" · ");
+          const years = [...new Set(state.events.map(event => Number(event.start.slice(0, 4))))].sort((first, second) => first - second);
+          if (mode === "replace" || !years.includes(state.year)) state.year = Number(incoming[0].start.slice(0, 4));
+          state.player = "Alle"; state.type = "Alle"; state.query = ""; state.view = "year";
+          $("searchInput").value = "";
+          $("notice").classList.add("hidden"); $("content").classList.remove("hidden");
+          $("exportButton").disabled = false; $("csvExportButton").disabled = false; $("htmlExportButton").disabled = false;
+          persistCurrentPlan(); render();
+          $("status").textContent = `${loadedNames.length} Dateien · ${sheetCount} Tabellenblätter · ${rowCount} Datenzeilen · ${incoming.length} Termine ${mode === "append" ? "ergänzt" : "übernommen"} · ${state.events.length} Termine gesamt${warnings.length ? ` · ${warnings.length} Hinweise` : ""}`;
+        } catch (error) { $("notice").className = "notice error"; $("notice").textContent = `Excel-Import fehlgeschlagen: ${error.message}`; }
+        finally { excelImportBusy = false; $("importButton").disabled = false; $("htmlImportButton").disabled = false; $("htmlFile").disabled = false; $("file").disabled = false; $("excelImportMode").disabled = false; }
+      }
+      function parseSheet(sheet,name){const rows=XLSX.utils.sheet_to_json(sheet,{header:1,raw:true,defval:""});const headers=(rows[0]||[]).map(norm);const col=(...labels)=>headers.findIndex(h=>labels.includes(h));const start=col("von (yyyy-mm-dd)","von","startdatum"),end=col("bis (yyyy-mm-dd)","bis","enddatum"),who=col("spieler / kategorie","spieler/kategorie","spieler","kategorie"),category=col("turnierkategorie","turnier kategorie","turnierart"),title=col("termin","titel","turnier"),note=col("notiz","bemerkung"),group=col("alternativgruppe","alternative gruppe"),location=col("ort","ort / region","location"),club=col("gc","golfclub","golf club");if(start<0||end<0||who<0||title<0)throw Error(`Tabellenblatt „${name}“: Erwartete Spalten „Von“, „Bis“, „Spieler / Kategorie“ und „Termin“ fehlen.`);const players=new Set(),warnings=[],raw=[];rows.slice(1).forEach((row,index)=>{const rowNo=index+2;if(!row[start]&&!row[title])return;try{const from=dateValue(row[start],rowNo),to=row[end]?dateValue(row[end],rowNo):from;if(to<from)throw Error(`Zeile ${rowNo}: Enddatum vor Startdatum.`);const source=String(row[who]||"Allg.").trim(),alternative=norm(source)==="altern.",general=norm(source)==="allg.",playerNames=alternative||general?[]:[source];playerNames.forEach(player=>players.add(player));const eventTitle=String(row[title]||"").trim();if(!eventTitle)return;raw.push({start:from,end:to,title:eventTitle,playerNames,alternative,general,tournamentCategory:String(row[category]||"").trim(),alternativeGroup:String(row[group]||"").trim(),location:String(row[location]||"").trim(),golfClub:String(row[club]||"").trim(),note:String(row[note]||"").trim(),sourceRow:rowNo})}catch(error){warnings.push(error.message)}});const grouped=new Map();raw.forEach(event=>{const key=[event.start,event.end,norm(event.title),event.alternative?"alternative":"regular",norm(event.alternativeGroup),norm(event.tournamentCategory),norm(event.location),norm(event.golfClub)].join("|");const previous=grouped.get(key);if(!previous)grouped.set(key,{...event,playerNames:[...event.playerNames]});else{previous.playerNames=[...new Set([...previous.playerNames,...event.playerNames])];previous.note=[...new Set([previous.note,event.note].filter(Boolean))].join("\n");previous.sourceRow+=`, ${event.sourceRow}`}});const events=[...grouped.values()];if(!events.length)warnings.push("Keine gültigen Termine in diesem Tabellenblatt gefunden.");return{name,year:null,events,players:[...players],warnings,layout:"2027-flat"}}
+      function showError(text){$("notice").className="notice error";$("notice").textContent=text;$("content").classList.add("hidden")}
+      function playerColor(player){const fixed={caroline:"#e87524",patricia:"#c99a6b",steini:"#3978c5"};const known=fixed[norm(player)];if(known)return known;let hash=0;for(const char of player)hash=(hash*31+char.charCodeAt(0))>>>0;return PLAYER_COLORS[hash%PLAYER_COLORS.length]}
+      function populate(){const years=[...new Set(state.events.map(e=>Number(e.start.slice(0,4))))].sort((a,b)=>a-b);$("year").innerHTML=years.map(y=>`<option value="${y}">${y}</option>`).join("");if(years.includes(state.year))$("year").value=String(state.year);$("player").innerHTML=`<option value="Alle">Alle Spieler</option>${state.players.map(p=>`<option value="${escape(p)}">${escape(p)}</option>`).join("")}`;$("player").value=state.player;const colors=new Map(state.players.map(player=>[player,playerColor(player)]));$("legend").innerHTML=[...state.players.map(player=>`<li><span class="swatch" style="--swatch:${colors.get(player)}"></span>${escape(player)}</li>`),`<li><span class="swatch" style="--swatch:#e53935"></span>Mehrere Spieler</li>`,`<li><span class="swatch" style="--swatch:${ALTERNATIVE_COLOR}"></span>Alternativtermine</li>`,`<li><span class="swatch" style="--swatch:#89958d"></span>Allgemein</li>`].join("")}
+      function searchMatches(){const tokens=norm(state.query).split(" ").filter(token=>token&&!['termin','termine','turnier','suche'].includes(token));return state.events.filter(event=>(state.player==="Alle"||event.alternative||event.general||event.playerNames.includes(state.player))&&(state.type==="Alle"||state.type===(event.alternative?"Alternative":event.general?"Allgemein":"Turnier"))&&tokens.every(token=>norm([event.title,event.note,event.alternativeGroup,...event.playerNames].join(" ")).includes(token))).sort((a,b)=>a.start.localeCompare(b.start))}
+      function renderSearchResults(matches){const query=$("searchInput").value.trim();if(!query){searchResults.classList.add("hidden");searchResults.replaceChildren();return}searchResults.classList.remove("hidden");if(!matches.length){searchResults.innerHTML=`<p class="search-empty">Kein Termin für „${escape(query)}“ gefunden.</p>`;return}searchResults.innerHTML=`<h3 class="search-results-title">${matches.length} Treffer</h3><div class="search-result-list">${matches.slice(0,30).map((event,index)=>`<button type="button" class="search-result" data-result-index="${index}"><span class="search-result-date">${event.start===event.end?escape(event.start):`${escape(event.start)} – ${escape(event.end)}`}</span><span class="search-result-name">${event.alternative?"Alternative · ":""}${escape(event.title)}</span><span class="search-result-players">${event.playerNames.map(escape).join(", ")|| (event.general?"Allgemein":"")}</span></button>`).join("")}${matches.length>30?`<p class="search-more">Weitere Treffer: ${matches.length-30}</p>`:""}</div>`;searchResults.querySelectorAll("[data-result-index]").forEach(button=>button.addEventListener("click",()=>{const event=matches[Number(button.dataset.resultIndex)];state.year=Number(event.start.slice(0,4));state.month=Number(event.start.slice(5,7))-1;state.view="month";render();$("calendar").scrollIntoView({behavior:"smooth",block:"start"})}))}
+      function visible(){persistCurrentPlan();const matches=searchMatches();renderSearchResults(matches);return matches}
+      function executeSearch(){state.query=$("searchInput").value;const matches=searchMatches();if(matches.length){const match=matches[0];state.year=Number(match.start.slice(0,4));state.month=Number(match.start.slice(5,7))-1;state.view="month";$ ("status").textContent=`${matches.length} Treffer – erster Termin: ${match.title} am ${match.start}`;}else{$("status").textContent=state.query.trim()?`Kein Termin für „${$("searchInput").value}“ gefunden.`:"Suchbegriff eingeben."}render()}
+      function badge(event){const players=event.playerNames.length?`<span class="players">${event.playerNames.map(escape).join(", ")}</span>`:"";const tag=event.alternative?"Alternative":event.general?"Allgemein":"Turnier";const color=event.alternative?ALTERNATIVE_COLOR:event.playerNames.length>1?"#e53935":event.playerNames.length?playerColor(event.playerNames[0]):"#89958d";const details=[event.tournamentCategory,event.location,event.golfClub,event.note].filter(Boolean).join(" · ");const tooltip=[event.title,details].filter(Boolean).join("\n");const venue=[event.location,event.golfClub].filter(Boolean).join(" · ");const index=state.events.indexOf(event);return `<button type="button" class="event${event.alternative?" alt":""}" data-event-index="${index}" style="--player-color:${color}" title="${escape(tooltip)}"><span class="tag">${tag}</span>${players}<span class="title">${escape(event.title).replace(/\n/g," / ")}</span>${event.tournamentCategory?`<span class="event-meta">${escape(event.tournamentCategory)}</span>`:""}${venue?`<span class="event-meta">${escape(venue)}</span>`:""}</button>`}
+      function renderYear(events){$("calendar").innerHTML=`<div class="year-grid">${MONTHS.map((month,i)=>{const from=`${state.year}-${String(i+1).padStart(2,"0")}-01`,to=keyDate(new Date(state.year,i+1,0));const list=events.filter(e=>e.start<=to&&e.end>=from).sort((a,b)=>a.start.localeCompare(b.start));return `<section class="month-card"><button class="month-head" data-month="${i}" type="button"><span>${month}</span><span>${list.length}</span></button><div class="month-body">${list.length?list.slice(0,5).map(badge).join(""):'<p class="empty">Keine Termine</p>'}${list.length>5?`<button class="more" data-month="${i}" type="button">+ ${list.length-5} weitere</button>`:""}</div></section>`}).join("")}</div>`;$("calendar").querySelectorAll("[data-month]").forEach(button=>button.addEventListener("click",()=>{state.month=Number(button.dataset.month);state.view="month";render()}))}
+      function renderMonth(events){const first=new Date(state.year,state.month,1),offset=(first.getDay()+6)%7,days=new Date(state.year,state.month+1,0).getDate(),today=keyDate(new Date());const cells=Array.from({length:offset},()=>'<div class="day out"></div>');for(let day=1;day<=days;day++){const key=`${state.year}-${String(state.month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;const dayEvents=events.filter(e=>e.start<=key&&e.end>=key);cells.push(`<div class="day${key===today?" today":""}"><div class="daynum"><span>${day}</span></div>${dayEvents.slice(0,4).map(badge).join("")}${dayEvents.length>4?`<small>+${dayEvents.length-4} weitere</small>`:""}</div>`)}$("calendar").innerHTML=`<div class="month-grid">${DAYS.map(d=>`<div class="weekday">${d}</div>`).join("")}${cells.join("")}</div>`}
+      function render(){if(!state.events.length)return;populate();const events=visible();$("heading").textContent=state.view==="year"?String(state.year):`${MONTHS[state.month]} ${state.year}`;$("count").textContent=`${events.filter(e=>e.start.slice(0,4)===String(state.year)).length} Termine`;$("toggle").textContent=state.view==="year"?"▦ Monatsansicht":"▦ Jahresübersicht";if(state.view==="year")renderYear(events);else renderMonth(events)}
+        function renderThreeMonths(events){const months=[0,1,2].map(offset=>new Date(state.year,state.month+offset,1));const currentKey=keyDate(new Date());const html=months.map(first=>{const year=first.getFullYear(),month=first.getMonth(),offset=(first.getDay()+6)%7,days=new Date(year,month+1,0).getDate(),cells=Array.from({length:offset},()=>'<div class="day out"></div>');for(let day=1;day<=days;day++){const key=keyDate(new Date(year,month,day)),dayEvents=events.filter(event=>event.start<=key&&event.end>=key);cells.push(`<div class="day${key===currentKey?" today":""}"><div class="daynum"><span>${day}</span></div>${dayEvents.slice(0,3).map(badge).join("")}${dayEvents.length>3?`<small>+${dayEvents.length-3}</small>`:""}</div>`)}return `<section class="three-month-card"><h3 class="three-month-title">${MONTHS[month]} ${year}</h3><div class="month-grid">${DAYS.map(day=>`<div class="weekday">${day}</div>`).join("")}${cells.join("")}</div></section>`}).join("");$("calendar").innerHTML=`<div class="three-months">${html}</div>`}
+        function shiftMonths(delta){const shifted=new Date(state.year,state.month+delta,1);state.year=shifted.getFullYear();state.month=shifted.getMonth();render()}
+        function render(){if(!state.events.length)return;populate();const events=visible();const firstThree=new Date(state.year,state.month,1),lastThree=new Date(state.year,state.month+3,0);const periodTitle=state.view==="year"?String(state.year):state.view==="three"?`${MONTHS[firstThree.getMonth()]} ${firstThree.getFullYear()} – ${MONTHS[lastThree.getMonth()]} ${lastThree.getFullYear()}`:`${MONTHS[state.month]} ${state.year}`;$("heading").textContent=periodTitle;const countEvents=state.view==="three"?events.filter(e=>e.start<=keyDate(lastThree)&&e.end>=keyDate(firstThree)).length:events.filter(e=>e.start.slice(0,4)===String(state.year)).length;$("count").textContent=`${countEvents} Termine`;$("toggle").textContent=state.view==="year"?"▦ 3 Monate":state.view==="three"?"▦ Monatsansicht":"▦ Jahresübersicht";$("prev").setAttribute("aria-label",state.view==="year"?"Vorheriges Jahr":"Vorheriger Zeitraum");$("next").setAttribute("aria-label",state.view==="year"?"Nächstes Jahr":"Nächster Zeitraum");if(state.view==="year")renderYear(events);else if(state.view==="three")renderThreeMonths(events);else renderMonth(events)}
+      function openEventDialog(index=null){editingIndex=Number.isInteger(index)?index:null;const current=editingIndex===null?null:state.events[editingIndex];const today=keyDate(new Date());$("eventForm").reset();$("eventDialogTitle").textContent=current?"Termin bearbeiten":"Termin hinzufügen";$("eventTitle").value=current?.title||"";$("eventStart").value=current?.start||today;$("eventEnd").value=current?.end||current?.start||today;$("eventEnd").min=$("eventStart").value;$("eventType").value=current?.alternative?"Alternative":current?.general?"Allgemein":"Turnier";$("eventGroup").value=current?.alternativeGroup||"";$("eventNote").value=current?.note||"";const players=[...new Set([...state.players,...(current?.playerNames||[])])];$("eventPlayerOptions").innerHTML=players.map(player=>`<label><input type="checkbox" value="${escape(player)}" ${(current?.playerNames||[]).includes(player)?"checked":""}>${escape(player)}</label>`).join("")||'<span>Erst Excel oder CSV importieren, um Spieler auszuwählen.</span>';$ ("deleteEvent").classList.toggle("hidden",!current);$("eventForm").querySelector('[type="submit"]').textContent=current?"Änderungen speichern":"Termin speichern";$ ("eventDialog").classList.remove("hidden");$("eventTitle").focus()}
+      function closeEventDialog(){$("eventDialog").classList.add("hidden")}
+      function openEventDialog(index=null){editingIndex=Number.isInteger(index)?index:null;const current=editingIndex===null?null:state.events[editingIndex];const today=keyDate(new Date());$("eventForm").reset();$("eventDialogTitle").textContent=current?"Termin bearbeiten":"Termin hinzufügen";$("eventTitle").value=current?.title||"";$("eventStart").value=current?.start||today;$("eventEnd").value=current?.end||current?.start||today;$("eventEnd").min=$("eventStart").value;$("eventType").value=current?.alternative?"Alternative":current?.general?"Allgemein":"Turnier";$("eventTournamentCategory").value=current?.tournamentCategory||"";$("eventGroup").value=current?.alternativeGroup||"";$("eventLocation").value=current?.location||"";$("eventClub").value=current?.golfClub||"";$("eventNote").value=current?.note||"";const players=[...new Set([...state.players,...(current?.playerNames||[])])];$("eventPlayerOptions").innerHTML=players.map(player=>`<label><input type="checkbox" value="${escape(player)}" ${(current?.playerNames||[]).includes(player)?"checked":""}>${escape(player)}</label>`).join("")||'<span>Erst Excel oder CSV importieren, um Spieler auszuwählen.</span>';$ ("deleteEvent").classList.toggle("hidden",!current);$("eventForm").querySelector('[type="submit"]').textContent=current?"Änderungen speichern":"Termin speichern";$ ("eventDialog").classList.remove("hidden");$("eventTitle").focus()}
+      $("eventForm").addEventListener("submit",event=>{event.preventDefault();event.stopImmediatePropagation();const start=$("eventStart").value,end=$("eventEnd").value||start,title=$("eventTitle").value.trim();if(!title){$("eventTitle").focus();return}if(!start||!end||end<start){alert("Bitte einen gültigen Zeitraum eingeben.");return}const type=$("eventType").value;const playerNames=[...$("eventPlayerOptions").querySelectorAll('input[type="checkbox"]:checked')].map(input=>input.value);const updated={...(editingIndex===null?{}:state.events[editingIndex]),start,end,title,playerNames,alternative:type==="Alternative",general:type==="Allgemein",tournamentCategory:$("eventTournamentCategory").value.trim(),alternativeGroup:$("eventGroup").value.trim(),location:$("eventLocation").value.trim(),golfClub:$("eventClub").value.trim(),note:$("eventNote").value.trim()};if(editingIndex===null)state.events.push(updated);else state.events[editingIndex]=updated;state.players=[...new Set([...state.players,...playerNames])].sort((a,b)=>a.localeCompare(b,"de"));state.year=Number(start.slice(0,4));state.month=Number(start.slice(5,7))-1;state.view="month";persistCurrentPlan();closeEventDialog();render()},{capture:true});
+      $("calendar").addEventListener("click",event=>{const target=event.target.closest("[data-event-index]");if(target)openEventDialog(Number(target.dataset.eventIndex))});$("eventForm").addEventListener("submit",event=>{if(editingIndex===null)return;event.preventDefault();event.stopImmediatePropagation();const start=$("eventStart").value,end=$("eventEnd").value||start,title=$("eventTitle").value.trim();if(!title){$("eventTitle").focus();return}if(!start||!end||end<start){alert("Bitte einen gültigen Zeitraum eingeben.");return}const type=$("eventType").value;const playerNames=[...$("eventPlayerOptions").querySelectorAll('input[type="checkbox"]:checked')].map(input=>input.value);state.events[editingIndex]={...state.events[editingIndex],start,end,title,playerNames,alternative:type==="Alternative",general:type==="Allgemein",alternativeGroup:$("eventGroup").value.trim(),note:$("eventNote").value.trim(),editedAt:new Date().toISOString()};state.players=[...new Set([...state.players,...playerNames])].sort((a,b)=>a.localeCompare(b,"de"));state.year=Number(start.slice(0,4));state.month=Number(start.slice(5,7))-1;state.view="month";closeEventDialog();render()},{capture:true});$("deleteEvent").addEventListener("click",()=>{if(editingIndex===null)return;const title=state.events[editingIndex].title;if(!confirm(`„${title}“ wirklich löschen?`))return;state.events.splice(editingIndex,1);editingIndex=null;closeEventDialog();render()});
+      $("addEventButton").addEventListener("click",openEventDialog);$("closeEvent").addEventListener("click",closeEventDialog);$("cancelEvent").addEventListener("click",closeEventDialog);$("eventDialog").addEventListener("click",event=>{if(event.target.id==="eventDialog")closeEventDialog()});$("eventStart").addEventListener("change",event=>{$("eventEnd").min=event.target.value});document.addEventListener("keydown",event=>{if(event.key==="Escape")closeEventDialog()});$("eventForm").addEventListener("submit",event=>{event.preventDefault();const start=$("eventStart").value,end=$("eventEnd").value||start,title=$("eventTitle").value.trim();if(!title){$("eventTitle").focus();return}if(!start||!end||end<start){alert("Bitte einen gültigen Zeitraum eingeben.");return}const type=$("eventType").value;const playerNames=[...$("eventPlayerOptions").querySelectorAll('input[type="checkbox"]:checked')].map(input=>input.value);state.events.push({start,end,title,playerNames,alternative:type==="Alternative",general:type==="Allgemein",alternativeGroup:$("eventGroup").value.trim(),note:$("eventNote").value.trim(),sourceRow:"Manuell"});state.players=[...new Set([...state.players,...playerNames])].sort((a,b)=>a.localeCompare(b,"de"));const years=[...new Set(state.events.map(item=>Number(item.start.slice(0,4))))].sort((a,b)=>a-b);state.year=Number(start.slice(0,4));state.month=Number(start.slice(5,7))-1;state.view="month";populate();$("content").classList.remove("hidden");$("notice").classList.add("hidden");$("exportButton").disabled=false;$("csvExportButton").disabled=false;$("status").textContent=`${state.events.length} Termine · ${state.players.length} Spieler`;closeEventDialog();render()});
+      function escapeSnapshot(value){return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
+      function exportHtmlSnapshot() {
+        if (!state.events.length) return;
+        const created = new Date();
+        const pad = value => String(value).padStart(2, "0");
+        const datePart = `${created.getFullYear()}.${pad(created.getMonth() + 1)}.${pad(created.getDate())}`;
+        const timePart = `${pad(created.getHours())}.${pad(created.getMinutes())}.${pad(created.getSeconds())}`;
+        const version = `HTML-${datePart}-${timePart}`;
+        const createdLabel = `${pad(created.getDate())}.${pad(created.getMonth() + 1)}.${created.getFullYear()} ${pad(created.getHours())}:${pad(created.getMinutes())}:${pad(created.getSeconds())}`;
+        const events = [...state.events].sort((a, b) => a.start.localeCompare(b.start) || a.title.localeCompare(b.title, "de"));
+        const players = [...new Set(["Dad", ...state.players, ...events.flatMap(event => event.playerNames || [])])].sort((a, b) => a.localeCompare(b, "de"));
+        const fallbackRows = events.map(event => `<tr><td>${escapeSnapshot(event.start)}</td><td>${escapeSnapshot(event.end || event.start)}</td><td>${escapeSnapshot((event.playerNames || []).join(", ") || (event.alternative ? "Altern." : "Allg."))}</td><td>${escapeSnapshot(event.tournamentCategory || "")}</td><td>${escapeSnapshot(event.title)}</td><td>${escapeSnapshot(event.note || "")}</td><td>${escapeSnapshot(event.alternativeGroup || "")}</td><td>${escapeSnapshot(event.location || "")}</td><td>${escapeSnapshot(event.golfClub || "")}</td></tr>`).join("");
+        const fallbackMarkup = `<section id="snapshotFallback" class="shell"><div class="summary"><h2>Alle exportierten Termine</h2><span class="count">${events.length} Termine</span></div><div class="snapshot-table-scroll"><table class="snapshot-table"><thead><tr>${["Von", "Bis", "Spieler / Kategorie", "Turnierkategorie", "Termin", "Notiz", "Alternativgruppe", "Ort", "Golfclub"].map(label => `<th>${label}</th>`).join("")}</tr></thead><tbody>${fallbackRows}</tbody></table></div></section>`;
+        const json = JSON.stringify({ id: crypto.randomUUID(), events, players, initial: { year: state.year, month: state.month } })
+          .replace(/</g, "\\u003c").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+        const css = document.querySelector("style").textContent;
+        const scriptEnd = "</scr" + "ipt>";
+        const runtime = `(() => {
+          const data = JSON.parse(document.getElementById("snapshot-data").textContent);
+          const months = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+          const weekdays = ["Mo","Di","Mi","Do","Fr","Sa","So"];
+          const fixedColors = { caroline: "#e87524", patricia: "#c99a6b", steini: "#3978c5" };
+          const $ = id => document.getElementById(id);
+          const normalize = value => String(value || "").normalize("NFKC").trim().toLocaleLowerCase("de-DE").replace(/\\s+/g, " ");
+          const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+          const pad = value => String(value).padStart(2, "0");
+          const dateKey = date => date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate());
+          const state = { year: data.initial.year, month: data.initial.month, view: "year", player: "Alle", type: "Alle", query: "" };
+          const mobileScreen = matchMedia("(max-width: 650px)");
+          state.mobileView = "agenda";
+          const draftKey = "golf-turnierplanung-snapshot-v1:" + data.id;
+          try {
+            const draft = JSON.parse(localStorage.getItem(draftKey) || "null");
+            if (draft && draft.id === data.id && Array.isArray(draft.events) && draft.events.every(event => event && typeof event.title === "string" && typeof event.start === "string" && typeof event.end === "string" && Array.isArray(event.playerNames))) {
+              data.events = draft.events;
+              data.players = draft.players || [];
+              if (draft.initial) { state.year = draft.initial.year; state.month = draft.initial.month; }
+            }
+          } catch { }
+          data.players = [...new Set(["Dad", ...data.players.filter(player => normalize(player) !== "dad"), ...data.events.flatMap(event => event.playerNames || [])])].sort((first, second) => first.localeCompare(second, "de"));
+          $("snapshotVersion").textContent = $("snapshotVersion").textContent.replace("Schreibgeschützte Momentaufnahme", "Bearbeitbare Planung");
+          const snapshotFooter = document.querySelector(".footer");
+          snapshotFooter.firstElementChild.textContent = "Bearbeitungszugang: Dad";
+          snapshotFooter.lastElementChild.textContent = $("snapshotVersion").textContent;
+          const draftStatus = document.createElement("p");
+          draftStatus.id = "snapshotDraftStatus";
+          draftStatus.className = "snapshot-draft-status";
+          draftStatus.setAttribute("role", "status");
+          $("content").append(draftStatus);
+          const mobileView = document.createElement("div");
+          mobileView.id = "snapshotMobileView";
+          mobileView.className = "snapshot-mobile-mode";
+          mobileView.setAttribute("role", "group");
+          mobileView.setAttribute("aria-label", "Darstellung");
+          mobileView.innerHTML = '<button type="button" data-mobile-view="agenda" aria-pressed="true">Tagesliste</button><button type="button" data-mobile-view="calendar" aria-pressed="false">Kalender</button>';
+          $("content").prepend(mobileView);
+          mobileView.addEventListener("click", event => {
+            const button = event.target.closest("[data-mobile-view]");
+            if (!button) return;
+            state.mobileView = button.dataset.mobileView;
+            render();
+          });
+          if (mobileScreen.addEventListener) mobileScreen.addEventListener("change", () => render());
+          else mobileScreen.addListener(() => render());
+          function updateSnapshotViewport() {
+            const viewport = window.visualViewport;
+            document.documentElement.style.setProperty("--snapshot-viewport-height", Math.round(viewport ? viewport.height : innerHeight) + "px");
+            document.documentElement.style.setProperty("--snapshot-viewport-top", Math.round(viewport ? viewport.offsetTop : 0) + "px");
+          }
+          updateSnapshotViewport();
+          window.addEventListener("resize", updateSnapshotViewport);
+          window.visualViewport?.addEventListener("resize", updateSnapshotViewport);
+          window.visualViewport?.addEventListener("scroll", updateSnapshotViewport);
+          function serializedData(payload = data) {
+            const backslash = String.fromCharCode(92);
+            return JSON.stringify(payload).replace(/</g, backslash + "u003c").replaceAll(String.fromCharCode(8232), backslash + "u2028").replaceAll(String.fromCharCode(8233), backslash + "u2029");
+          }
+          const editor = document.createElement("dialog");
+          editor.id = "snapshotEventDialog";
+          editor.className = "snapshot-editor";
+          editor.setAttribute("aria-labelledby", "snapshotEventHeading");
+          editor.innerHTML = '<div class="dialog-head"><h2 id="snapshotEventHeading">Termin</h2><button id="snapshotClose" class="close-dialog" type="button" aria-label="Schließen">×</button></div>' +
+            '<form id="snapshotLogin" class="snapshot-login hidden"><div class="form-row"><label class="form-field">Benutzer<input id="snapshotUsername" autocomplete="username" required></label><label class="form-field">Passwort<input id="snapshotPassword" type="password" autocomplete="current-password" required></label></div><p id="snapshotLoginError" class="error-message" role="alert"></p><div class="dialog-actions"><button id="snapshotUnlock" class="excel-button primary" type="submit">Entsperren</button></div></form>' +
+            '<form id="snapshotEventForm"><fieldset id="snapshotFields" class="snapshot-editor-fields" disabled>' +
+            '<label class="form-field">Turnier / Termin<textarea id="snapshotTitle" rows="2" maxlength="240" required></textarea></label>' +
+            '<div class="form-row"><label class="form-field">Von<input id="snapshotStart" type="date" required></label><label class="form-field">Bis<input id="snapshotEnd" type="date" required></label></div>' +
+            '<div class="form-row"><label class="form-field">Terminart<select id="snapshotType"><option value="Turnier">Turnier</option><option value="Alternative">Alternativtermin</option><option value="Allgemein">Allgemeiner Termin</option></select></label><label class="form-field">Turnierkategorie<input id="snapshotCategory"></label></div>' +
+            '<fieldset class="event-player-picks"><legend>Spieler / Kategorie</legend><div id="snapshotPlayers"></div></fieldset>' +
+            '<label class="form-field">Alternativgruppe<input id="snapshotGroup" maxlength="80"></label><div class="form-row"><label class="form-field">Ort<input id="snapshotLocation"></label><label class="form-field">Golfclub<input id="snapshotClub"></label></div><label class="form-field">Notiz<textarea id="snapshotNote" rows="3"></textarea></label></fieldset>' +
+            '<p id="snapshotSaveError" class="error-message" role="alert"></p><p id="snapshotEditHistory" class="history"></p><div class="dialog-actions"><button id="snapshotCancel" class="excel-button" type="button">Schließen</button><button id="snapshotEdit" class="excel-button primary" type="button">Bearbeiten</button><button id="snapshotSave" class="excel-button primary hidden" type="submit">Änderungen speichern</button></div></form>';
+          document.body.append(editor);
+          let editingIndex = null, authenticatedUser = null, editorVersion = 0;
+          let previousBodyOverflow = "";
+          function openSnapshotEvent(index) {
+            const event = data.events[index];
+            if (!event) return;
+            editingIndex = index; authenticatedUser = null; editorVersion += 1;
+            $("snapshotEventForm").reset(); $("snapshotLogin").reset();
+            $("snapshotFields").disabled = true;
+            $("snapshotLogin").classList.add("hidden");
+            $("snapshotSave").classList.add("hidden");
+            $("snapshotEdit").classList.remove("hidden");
+            $("snapshotUnlock").disabled = false;
+            $("snapshotLoginError").textContent = ""; $("snapshotSaveError").textContent = "";
+            $("snapshotTitle").value = event.title;
+            $("snapshotStart").value = event.start;
+            $("snapshotEnd").value = event.end || event.start;
+            $("snapshotType").value = event.alternative ? "Alternative" : event.general ? "Allgemein" : "Turnier";
+            $("snapshotCategory").value = event.tournamentCategory || "";
+            $("snapshotGroup").value = event.alternativeGroup || "";
+            $("snapshotLocation").value = event.location || "";
+            $("snapshotClub").value = event.golfClub || "";
+            $("snapshotNote").value = event.note || "";
+            $("snapshotPlayers").innerHTML = data.players.map(player => '<label><input type="checkbox" value="' + escape(player) + '" ' + ((event.playerNames || []).includes(player) ? 'checked' : '') + '>' + escape(player) + '</label>').join("");
+            $("snapshotEditHistory").textContent = event.editedBy ? "Zuletzt bearbeitet von " + event.editedBy + " am " + new Date(event.editedAt).toLocaleString("de-DE") : "";
+            previousBodyOverflow = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+            updateSnapshotViewport();
+            editor.showModal();
+          }
+          function closeSnapshotEvent() { editorVersion += 1; authenticatedUser = null; $("snapshotPassword").value = ""; editor.close(); document.body.style.overflow = previousBodyOverflow; }
+          $("snapshotClose").addEventListener("click", closeSnapshotEvent);
+          $("snapshotCancel").addEventListener("click", closeSnapshotEvent);
+          editor.addEventListener("cancel", () => { editorVersion += 1; authenticatedUser = null; $("snapshotPassword").value = ""; document.body.style.overflow = previousBodyOverflow; });
+          $("snapshotEdit").addEventListener("click", () => { $("snapshotLogin").classList.remove("hidden"); $("snapshotUsername").value = "Dad"; $("snapshotPassword").focus(); });
+          $("snapshotLogin").addEventListener("submit", async event => {
+            event.preventDefault();
+            const version = editorVersion;
+            const username = normalize($("snapshotUsername").value);
+            const password = $("snapshotPassword").value;
+            $("snapshotUnlock").disabled = true;
+            $("snapshotLoginError").textContent = "";
+            try {
+              if (!crypto.subtle) throw Error("Die lokale Passwortprüfung benötigt einen aktuellen Browser.");
+              const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(password));
+              const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+              if (version !== editorVersion || !editor.open) return;
+              if (username !== "dad" || hash !== "d5e68681077b0a563b43652e3352d4a033e7e8a0aa95d68b276127db06f2350c") { $("snapshotLoginError").textContent = "Benutzer oder Passwort ist falsch."; return; }
+              authenticatedUser = "Dad";
+              $("snapshotFields").disabled = false;
+              $("snapshotLogin").classList.add("hidden");
+              $("snapshotEdit").classList.add("hidden");
+              $("snapshotSave").classList.remove("hidden");
+              $("snapshotPlayers").querySelectorAll("input").forEach(input => { if (input.value === "Dad") { input.checked = true; input.disabled = true; } });
+              $("snapshotTitle").focus();
+            } catch (error) { if (version === editorVersion) $("snapshotLoginError").textContent = error.message; }
+            finally { if (version === editorVersion) { $("snapshotPassword").value = ""; $("snapshotUnlock").disabled = false; } }
+          });
+          $("snapshotEventForm").addEventListener("submit", event => {
+            event.preventDefault();
+            if (!authenticatedUser || editingIndex === null || !editor.open) { $("snapshotSaveError").textContent = "Zum Bearbeiten zuerst anmelden."; return; }
+            const start = $("snapshotStart").value, end = $("snapshotEnd").value, title = $("snapshotTitle").value.trim();
+            if (!title || !start || !end || end < start) { $("snapshotSaveError").textContent = "Bitte Titel und einen gültigen Zeitraum eingeben."; return; }
+            const players = [...new Set([...$("snapshotPlayers").querySelectorAll("input:checked")].map(input => input.value).concat(authenticatedUser))];
+            const updated = { ...data.events[editingIndex], start, end, title, playerNames: players, alternative: $("snapshotType").value === "Alternative", general: $("snapshotType").value === "Allgemein", tournamentCategory: $("snapshotCategory").value.trim(), alternativeGroup: $("snapshotGroup").value.trim(), location: $("snapshotLocation").value.trim(), golfClub: $("snapshotClub").value.trim(), note: $("snapshotNote").value.trim(), editedBy: authenticatedUser, editedAt: new Date().toISOString() };
+            data.events[editingIndex] = updated;
+            state.year = Number(start.slice(0, 4)); state.month = Number(start.slice(5, 7)) - 1; state.player = "Alle"; state.type = "Alle"; state.query = ""; $("type").value = "Alle"; $("searchInput").value = "";
+            data.initial = { year: state.year, month: state.month };
+            $("snapshot-data").textContent = serializedData();
+            let saved = true;
+            try { localStorage.setItem(draftKey, JSON.stringify(data)); } catch { saved = false; }
+            closeSnapshotEvent(); render();
+            draftStatus.textContent = saved ? "Änderung im Browser gespeichert. Für eine aktualisierte Datei erneut als HTML exportieren." : "Änderung nur in dieser Ansicht gespeichert. Bitte als HTML exportieren.";
+          });
+          function handleSnapshotEvent(event) { const button = event.target.closest("[data-snapshot-index]"); if (button) openSnapshotEvent(Number(button.dataset.snapshotIndex)); }
+          $("calendar").addEventListener("click", handleSnapshotEvent);
+          $("results").addEventListener("click", handleSnapshotEvent);
+          function playerColor(player) {
+            const name = normalize(player);
+            if (fixedColors[name]) return fixedColors[name];
+            let hash = 0;
+            for (const char of String(player || "")) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+            return ["#2e7759", "#3777a8", "#8758a5", "#d06a38", "#388b8b", "#b34c69", "#6b7d32", "#5969b0"][hash % 8];
+          }
+          function matches() {
+            const terms = normalize(state.query).split(" ").filter(Boolean);
+            return data.events.filter(event =>
+              (state.player === "Alle" || event.general || event.alternative || (event.playerNames || []).includes(state.player)) &&
+              (state.type === "Alle" || state.type === (event.alternative ? "Alternative" : event.general ? "Allgemein" : "Turnier")) &&
+              terms.every(term => normalize([event.title, event.note, event.alternativeGroup, ...(event.playerNames || [])].join(" ")).includes(term))
+            );
+          }
+          function badge(event) {
+            const color = event.alternative ? "#4f9b68" : event.playerNames?.length > 1 ? "#e53935" : event.playerNames?.length ? playerColor(event.playerNames[0]) : "#89958d";
+            const metadata = [event.tournamentCategory, [event.location, event.golfClub].filter(Boolean).join(" · ")].filter(Boolean).join(" · ");
+            return '<button type="button" class="event' + (event.alternative ? " alt" : "") + '" data-snapshot-index="' + data.events.indexOf(event) + '" style="--player-color:' + color + '"><span class="tag">' +
+              (event.alternative ? "Alternative" : event.general ? "Allgemein" : "Turnier") + '</span>' +
+              ((event.playerNames || []).length ? '<span class="players">' + event.playerNames.map(escape).join(", ") + '</span>' : "") +
+              '<span class="title">' + escape(event.title) + '</span>' + (metadata ? '<span class="event-meta">' + escape(metadata) + '</span>' : "") + '</button>';
+          }
+          function monthGrid(year, month) {
+            const offset = (new Date(year, month, 1).getDay() + 6) % 7;
+            const total = new Date(year, month + 1, 0).getDate();
+            const cells = Array.from({ length: offset }, () => '<div class="day out"></div>');
+            const visible = matches();
+            for (let day = 1; day <= total; day++) {
+              const key = dateKey(new Date(year, month, day));
+              const items = visible.filter(event => event.start <= key && (event.end || event.start) >= key);
+              cells.push('<div class="day' + (key === dateKey(new Date()) ? ' today' : '') + '"><div class="daynum"><span>' + day + '</span></div>' + items.map(badge).join("") + '</div>');
+            }
+            return '<div class="month-grid">' + weekdays.map(day => '<div class="weekday">' + day + '</div>').join("") + cells.join("") + '</div>';
+          }
+          function yearGrid() {
+            const visible = matches();
+            return '<div class="year-grid">' + months.map((month, index) => {
+              const first = state.year + '-' + pad(index + 1) + '-01';
+              const last = dateKey(new Date(state.year, index + 1, 0));
+              const items = visible.filter(event => event.start <= last && (event.end || event.start) >= first);
+              return '<section class="month-card"><button class="month-head" type="button" data-month="' + index + '"><span>' + month + '</span><span>' + items.length + '</span></button><div class="month-body">' +
+                (items.length ? items.map(badge).join("") : '<p class="empty">Keine Termine</p>') + '</div></section>';
+            }).join("") + '</div>';
+          }
+          function threeMonths() {
+            return '<div class="three-months">' + [0, 1, 2].map(offset => {
+              const date = new Date(state.year, state.month + offset, 1);
+              return '<section class="three-month-card"><h3 class="three-month-title">' + months[date.getMonth()] + ' ' + date.getFullYear() + '</h3>' + monthGrid(date.getFullYear(), date.getMonth()) + '</section>';
+            }).join("") + '</div>';
+          }
+          function agenda(events) {
+            const first = state.view === "year" ? state.year + "-01-01" : dateKey(new Date(state.year, state.month, 1));
+            const last = state.view === "year" ? state.year + "-12-31" : dateKey(new Date(state.year, state.month + (state.view === "three" ? 3 : 1), 0));
+            const days = new Map();
+            events.filter(event => event.start <= last && (event.end || event.start) >= first).forEach(event => {
+              const start = event.start < first ? first : event.start;
+              const end = (event.end || event.start) > last ? last : (event.end || event.start);
+              const cursor = new Date(start + "T12:00:00");
+              while (dateKey(cursor) <= end) {
+                const day = dateKey(cursor);
+                if (!days.has(day)) days.set(day, []);
+                days.get(day).push(event);
+                cursor.setDate(cursor.getDate() + 1);
+              }
+            });
+            if (!days.size) return '<div class="mobile-agenda"><p class="agenda-empty">Keine Termine im gewählten Zeitraum.</p></div>';
+            const format = new Intl.DateTimeFormat("de-DE", { weekday: "long", day: "numeric", month: "long" });
+            return '<div class="mobile-agenda">' + [...days.entries()].sort((firstDay, secondDay) => firstDay[0].localeCompare(secondDay[0])).map(([day, items]) =>
+              '<section class="agenda-day"><h3><time datetime="' + day + '">' + escape(format.format(new Date(day + "T12:00:00"))) + '</time><span>' + items.length + '</span></h3><div class="agenda-events">' + items.sort((firstEvent, secondEvent) => firstEvent.title.localeCompare(secondEvent.title, "de")).map(event => '<div class="agenda-entry">' + badge(event) + (event.start !== (event.end || event.start) ? '<span class="agenda-period">' + escape(event.start) + ' – ' + escape(event.end || event.start) + '</span>' : '') + '</div>').join("") + '</div></section>'
+            ).join("") + '</div>';
+          }
+          function render() {
+            const visible = matches();
+            $("snapshotFallback")?.classList.add("hidden");
+            const years = [...new Set(data.events.flatMap(event => [Number(event.start.slice(0, 4)), Number((event.end || event.start).slice(0, 4))]))].sort((a, b) => a - b);
+            $("year").innerHTML = years.map(year => '<option>' + year + '</option>').join(""); $("year").value = state.year;
+            $("monthSelect").innerHTML = months.map((month, index) => '<option value="' + index + '">' + month + '</option>').join(""); $("monthSelect").value = state.month;
+            $("player").innerHTML = '<option value="Alle">Alle Spieler</option>' + data.players.map(player => '<option>' + escape(player) + '</option>').join(""); $("player").value = state.player;
+            $("legend").innerHTML = data.players.map(player => '<li><span class="swatch" style="--swatch:' + playerColor(player) + '"></span>' + escape(player) + '</li>').join("") + '<li><span class="swatch" style="--swatch:#e53935"></span>Mehrere Spieler</li><li><span class="swatch" style="--swatch:#4f9b68"></span>Alternativtermine</li><li><span class="swatch" style="--swatch:#89958d"></span>Allgemein</li>';
+            const first = new Date(state.year, state.month, 1), last = new Date(state.year, state.month + 3, 0);
+            $("heading").textContent = state.view === "year" ? String(state.year) : state.view === "three" ? months[first.getMonth()] + ' ' + first.getFullYear() + ' – ' + months[last.getMonth()] + ' ' + last.getFullYear() : months[state.month] + ' ' + state.year;
+            const periodStart = state.view === "year" ? state.year + "-01-01" : dateKey(first);
+            const periodEnd = state.view === "year" ? state.year + "-12-31" : state.view === "three" ? dateKey(last) : dateKey(new Date(state.year, state.month + 1, 0));
+            const count = visible.filter(event => event.start <= periodEnd && (event.end || event.start) >= periodStart).length;
+            $("count").textContent = count + ' Termine im Zeitraum / ' + data.events.length + ' gesamt';
+            $("toggle").textContent = state.view === "year" ? "▦ 3 Monate" : state.view === "three" ? "▦ Monatsansicht" : "▦ Jahresübersicht";
+            const useAgenda = mobileScreen.matches && state.mobileView === "agenda";
+            mobileView.querySelectorAll("[data-mobile-view]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.mobileView === state.mobileView)));
+            $("calendar").innerHTML = useAgenda ? agenda(visible) : state.view === "year" ? yearGrid() : state.view === "three" ? threeMonths() : monthGrid(state.year, state.month);
+            $("calendar").querySelectorAll("[data-month]").forEach(button => button.addEventListener("click", () => { state.month = Number(button.dataset.month); state.view = "month"; render(); }));
+            const terms = normalize(state.query).split(" ").filter(Boolean);
+            $("results").classList.toggle("hidden", !terms.length);
+            $("results").innerHTML = terms.length ? '<h3 class="search-results-title">' + visible.length + ' Treffer</h3><div class="search-result-list">' + visible.map(event => '<button type="button" class="search-result" data-snapshot-index="' + data.events.indexOf(event) + '"><span class="search-result-date">' + escape(event.start) + (event.end && event.end !== event.start ? ' – ' + escape(event.end) : "") + '</span><span class="search-result-name">' + escape(event.title) + '</span><span class="search-result-players">' + escape((event.playerNames || []).join(", ")) + '</span></button>').join("") + '</div>' : "";
+          }
+          function download(name, content, type) { const link = document.createElement("a"), url = URL.createObjectURL(new Blob([content], { type })); link.href = url; link.download = name; link.click(); setTimeout(() => URL.revokeObjectURL(url), 0); }
+          function exportCsv() {
+            const headers = ["Von (YYYY-MM-DD)","Bis (YYYY-MM-DD)","Spieler / Kategorie","Turnierkategorie","Termin","Notiz","Alternativgruppe","Ort","GC"];
+            const quote = value => { const text = String(value ?? ""); return /[;",\\r\\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text; };
+            const rows = [headers]; data.events.forEach(event => { const people = event.playerNames?.length ? event.playerNames : [event.alternative ? "Altern." : event.general ? "Allg." : "Allg."]; people.forEach(player => rows.push([event.start,event.end || event.start,player,event.tournamentCategory,event.title,event.note,event.alternativeGroup,event.location,event.golfClub])); });
+            download("golf-jahresplanung-" + state.year + ".csv", "\\uFEFF" + rows.map(row => row.map(quote).join(";")).join("\\r\\n"), "text/csv;charset=utf-8");
+          }
+          function exportExcelXml() {
+            const headers = ["Von (YYYY-MM-DD)","Bis (YYYY-MM-DD)","Spieler / Kategorie","Turnierkategorie","Termin","Notiz","Alternativgruppe","Ort","GC"];
+            const xml = value => String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");
+            const rows = [headers]; data.events.forEach(event => { const people = event.playerNames?.length ? event.playerNames : [event.alternative ? "Altern." : event.general ? "Allg." : "Allg."]; people.forEach(player => rows.push([event.start,event.end || event.start,player,event.tournamentCategory,event.title,event.note,event.alternativeGroup,event.location,event.golfClub])); });
+            const body = rows.map(row => '<Row>' + row.map(value => '<Cell><Data ss:Type="String">' + xml(value) + '</Data></Cell>').join("") + '</Row>').join("");
+            download("golf-jahresplanung-" + state.year + ".xml", '<?xml version="1.0"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"><Worksheet ss:Name="Golfplanung"><Table>' + body + '</Table></Worksheet></Workbook>', "application/xml;charset=utf-8");
+          }
+           function exportHtml() {
+            data.initial = { year: state.year, month: state.month };
+            const clone = document.documentElement.cloneNode(true), now = new Date(), version = "HTML-" + now.getFullYear() + "." + pad(now.getMonth()+1) + "." + pad(now.getDate()) + "-" + pad(now.getHours()) + "." + pad(now.getMinutes()) + "." + pad(now.getSeconds());
+            clone.querySelector("#snapshotEventDialog")?.remove();
+            clone.querySelector("#snapshotDraftStatus")?.remove();
+            clone.querySelector("#snapshotMobileView")?.remove();
+            clone.querySelector("body").style.overflow = "";
+            clone.querySelector("#snapshot-data").textContent = serializedData({ ...data, id: crypto.randomUUID() });
+            const fallback = clone.querySelector("#snapshotFallback");
+            if (fallback) {
+              fallback.classList.remove("hidden");
+              fallback.querySelector(".count").textContent = data.events.length + " Termine";
+              fallback.querySelector("tbody").innerHTML = data.events.map(event => '<tr>' + [event.start, event.end || event.start, (event.playerNames || []).join(", ") || (event.alternative ? "Altern." : "Allg."), event.tournamentCategory, event.title, event.note, event.alternativeGroup, event.location, event.golfClub].map(value => '<td>' + escape(value) + '</td>').join("") + '</tr>').join("");
+            }
+            clone.querySelector("#snapshotVersion").textContent = "Version " + version + " · erstellt am " + pad(now.getDate()) + "." + pad(now.getMonth()+1) + "." + now.getFullYear() + " " + pad(now.getHours()) + ":" + pad(now.getMinutes()) + ":" + pad(now.getSeconds()) + " · Bearbeitbare Planung";
+            clone.querySelector("title").textContent = "Golf Turnierplanung – " + version;
+            download("golf-jahresplanung-" + version + ".html", "<!doctype html>\\n" + clone.outerHTML, "text/html;charset=utf-8");
+          }
+          function closeMenu() { $("exportMenuPanel").classList.add("hidden"); $("exportMenuButton").setAttribute("aria-expanded", "false"); }
+          $("year").addEventListener("change", event => { state.year = Number(event.target.value); render(); });
+          $("monthSelect").addEventListener("change", event => { state.month = Number(event.target.value); state.view = "month"; render(); });
+          $("player").addEventListener("change", event => { state.player = event.target.value; render(); });
+          $("type").addEventListener("change", event => { state.type = event.target.value; render(); });
+          $("prev").addEventListener("click", () => { const date = new Date(state.year, state.month + (state.view === "year" ? -12 : state.view === "three" ? -3 : -1), 1); state.year = date.getFullYear(); state.month = date.getMonth(); render(); });
+          $("next").addEventListener("click", () => { const date = new Date(state.year, state.month + (state.view === "year" ? 12 : state.view === "three" ? 3 : 1), 1); state.year = date.getFullYear(); state.month = date.getMonth(); render(); });
+          $("toggle").addEventListener("click", () => { state.view = state.view === "year" ? "three" : state.view === "three" ? "month" : "year"; render(); });
+          $("searchButton").addEventListener("click", () => { const input = $("searchInput"), open = input.classList.contains("hidden"); input.classList.toggle("hidden"); if (open) input.focus(); else { input.value = ""; state.query = ""; render(); } });
+          $("searchInput").addEventListener("input", event => { state.query = event.target.value; render(); });
+          $("exportMenuButton").addEventListener("click", () => { const panel = $("exportMenuPanel"), open = panel.classList.contains("hidden"); panel.classList.toggle("hidden"); $("exportMenuButton").setAttribute("aria-expanded", String(open)); });
+          $("exportMenuPanel").addEventListener("click", event => { const action = event.target.closest("[data-export]")?.dataset.export; if (action === "csv") exportCsv(); if (action === "xml") exportExcelXml(); if (action === "html") exportHtml(); if (action) closeMenu(); });
+          document.addEventListener("click", event => { if (!event.target.closest(".action-menu")) closeMenu(); });
+          document.addEventListener("keydown", event => { if (event.key === "Escape") closeMenu(); });
+          render();
+         })();`;
+        const markup = `<div class="top"><div class="topline"><div class="brand"><div class="mark">⛳</div><div><p class="kicker">GOLF · TURNIERPLANUNG</p><p id="snapshotVersion" class="status-line">Erstellt am ${createdLabel} · Version ${version} · Schreibgeschützte Momentaufnahme</p></div></div><div class="excel-actions"><div class="action-menu"><button id="exportMenuButton" class="excel-button primary" type="button" aria-expanded="false">Export ▾</button><div id="exportMenuPanel" class="action-menu-panel hidden"><button class="excel-button" type="button" data-export="csv">CSV exportieren</button><button class="excel-button" type="button" data-export="xml">Excel XML exportieren</button><button class="excel-button" type="button" data-export="html">HTML exportieren</button></div></div></div></div><div class="toolbar"><div class="control"><label for="year">Planungsjahr</label><select id="year"></select></div><div class="control"><label for="monthSelect">Monat</label><select id="monthSelect"></select></div><div class="control"><label for="player">Spieler</label><select id="player"><option value="Alle">Alle Spieler</option></select></div><div class="control"><label for="type">Turnierart</label><select id="type"><option value="Alle">Alle Turnierarten</option><option value="Turnier">Turniere</option><option value="Alternative">Alternativen</option><option value="Allgemein">Allgemeine Termine</option></select></div><button id="prev" type="button" aria-label="Vorheriger Zeitraum">←</button><button id="next" type="button" aria-label="Nächster Zeitraum">→</button><span class="spacer"></span><button id="searchButton" type="button" aria-expanded="false">🔎 Suche</button><input id="searchInput" class="search-input hidden" type="search" placeholder="Turnier, Spieler oder Notiz suchen" aria-label="Turniere durchsuchen"><button id="toggle" class="view-toggle" type="button">Ansicht wechseln</button></div></div><main class="shell"><section id="content"><div class="summary"><div><p>TURNIERPLANUNG · HTML-SNAPSHOT</p><h2 id="heading"></h2></div><span id="count" class="count"></span></div><section id="results" class="search-results hidden" aria-live="polite"></section><ul id="legend" class="legend" aria-label="Farblegende"></ul><div class="panel"><div id="calendar"></div></div><div class="footer"><span>Schreibgeschützte Momentaufnahme aller Termine; Bearbeiten und Import sind deaktiviert.</span><span>Version ${version}</span></div></section></main>`;
+        const closeScript = "<" + "/script>";
+        const mobileCss = `
+          .snapshot-mobile-mode{display:none}
+          @media(max-width:650px){
+            html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+            body{font-size:16px;letter-spacing:0}
+            .top{padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 18px max(16px,env(safe-area-inset-left,0px))}
+            .shell{padding:20px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));min-width:0}
+            button,a,input,select,textarea{touch-action:manipulation}
+            .toolbar button,.excel-button,.control select,.search-input,.close-dialog{min-height:44px;font-size:16px}
+            .control label{font-size:14px}.toolbar{gap:12px}.toolbar .spacer{display:none}.search-input{width:100%}
+            .topline,.brand,.summary,.summary>div{min-width:0}.status-line{font-size:14px;overflow-wrap:anywhere;line-height:1.6}
+            .summary{flex-wrap:wrap;gap:8px}.summary .count{font-size:13px;white-space:normal}.legend{gap:10px;font-size:14px}.legend li{font-size:14px}
+            .panel:has(.mobile-agenda){padding:0;border:0;border-radius:0;background:transparent;overflow:visible}
+            .snapshot-mobile-mode{display:flex;gap:4px;padding:4px;margin-bottom:20px;background:#e2eae3;border-radius:6px}
+            .snapshot-mobile-mode button{flex:1;min-width:0;min-height:44px;border:0;border-radius:4px;background:transparent;color:var(--forest);font-size:16px;font-weight:650}
+            .snapshot-mobile-mode button[aria-pressed=true]{background:white;box-shadow:0 1px 3px #10251c18}
+            .agenda-day{margin:0 0 24px}.agenda-day h3{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0;padding:12px 0;color:var(--forest);font-size:16px;border-bottom:1px solid var(--line)}
+            .agenda-day h3 span{font-size:14px;font-weight:400;color:var(--muted)}.agenda-day time{overflow-wrap:anywhere}.agenda-events{display:grid;gap:10px;margin-top:12px}.agenda-entry{min-width:0}
+            .mobile-agenda .event{display:flex;flex-direction:column;align-items:flex-start;gap:6px;width:100%;min-height:64px;margin:0;padding:14px;text-align:left;border-radius:6px;font-size:16px;line-height:1.5;overflow:visible}
+            .mobile-agenda .event .title{display:block;width:100%;white-space:normal;overflow:visible;text-overflow:clip;font-size:16px;overflow-wrap:anywhere}
+            .mobile-agenda .event .players{max-width:100%;font-size:14px;white-space:normal;overflow-wrap:anywhere}.mobile-agenda .event .tag{font-size:12px}.mobile-agenda .event .event-meta{display:block;max-width:100%;font-size:14px;white-space:normal;overflow:visible;overflow-wrap:anywhere}
+            .agenda-period{display:block;font-size:13px;color:var(--muted);padding:5px 14px 0}.agenda-empty{padding:22px 0;color:var(--muted);font-size:16px}
+            .search-results{padding:12px}.search-result-list{grid-template-columns:minmax(0,1fr)}.search-result{min-height:44px}.search-result-name{font-size:16px;overflow-wrap:anywhere}.search-result-date,.search-result-players{font-size:14px}
+            .snapshot-editor{position:fixed;inset:auto;top:var(--snapshot-viewport-top,0px);left:0;width:100%;max-width:none;height:100vh;height:100dvh;height:var(--snapshot-viewport-height,100dvh);max-height:none;margin:0;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));border:0;border-radius:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-padding-block:70px 100px;box-shadow:none}
+            .snapshot-editor .dialog-head{position:sticky;top:calc(-1 * max(16px,env(safe-area-inset-top,0px)));z-index:2;margin:0 0 16px;padding:10px 0;background:white;min-height:54px}.snapshot-editor .dialog-head h2{font-size:22px}.snapshot-editor .close-dialog{width:44px;height:44px}
+            .snapshot-editor .form-row{grid-template-columns:minmax(0,1fr)}.snapshot-editor .form-field,.snapshot-editor .event-player-picks legend{font-size:16px}
+            .snapshot-editor .form-field input,.snapshot-editor .form-field select,.snapshot-editor .form-field textarea{min-width:0;max-width:100%;min-height:48px;font-size:16px;line-height:1.5;border-radius:6px;-webkit-appearance:none;appearance:none}
+            .snapshot-editor .form-field select{-webkit-appearance:menulist;appearance:auto}.snapshot-editor .event-player-picks label{min-height:44px;font-size:16px;border-radius:6px}.snapshot-editor .event-player-picks input{width:20px;height:20px}
+            .snapshot-editor .dialog-actions{position:sticky;bottom:calc(-1 * max(16px,env(safe-area-inset-bottom,0px)));z-index:2;display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;padding:12px 0 max(12px,env(safe-area-inset-bottom,0px));background:white;border-top:1px solid var(--line)}
+            .snapshot-editor .dialog-actions .excel-button{flex:1 1 120px;min-height:48px;white-space:normal;font-size:16px;border-radius:6px}.snapshot-editor .history,.snapshot-editor .error-message,.snapshot-draft-status{font-size:14px;line-height:1.6}
+            .snapshot-table{font-size:16px}.footer{font-size:13px;overflow-wrap:anywhere}.action-menu-panel{max-width:calc(100vw - 32px)}
+          }`;
+        const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#174a38"><title>Golf Turnierplanung – ${version}</title><style>${css}\n.status-line{margin:7px 0 0;color:#e3eee7;font-size:.82rem}.snapshot-table-scroll{max-width:100%;overflow:auto}.snapshot-table{width:100%;border-collapse:collapse;background:white;font-size:.82rem}.snapshot-table th,.snapshot-table td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;white-space:pre-wrap}.snapshot-table th{color:var(--forest);background:var(--mint)}.snapshot-table td:nth-child(5){min-width:180px}${mobileCss}</style></head><body>${markup}${fallbackMarkup}<script id="snapshot-data" type="application/json">${json}${closeScript}<script>${runtime}${closeScript}</body></html>`;
+        const exportedDocument = new DOMParser().parseFromString(html, "text/html");
+        const exportedData = JSON.parse(exportedDocument.getElementById("snapshot-data").textContent);
+        if (exportedData.events.length !== events.length || exportedDocument.querySelectorAll("#snapshotFallback tbody tr").length !== events.length) {
+          $("status").textContent = "HTML-Export abgebrochen: Die Anzahl der exportierten Termine stimmt nicht überein.";
+          return;
+        }
+        const blob = new Blob([html], { type: "text/html;charset=utf-8" }), url = URL.createObjectURL(blob), link = document.createElement("a");
+        link.href = url;
+        link.download = `golf-turnierplanung-${version}.html`;
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 0);
+        $("status").textContent = `HTML-Snapshot erstellt · ${version} · ${events.length} Termine`;
+      }
+      function csvCell(value) { const text = String(value ?? ""); return /[;\",\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text; }
+      function exportCsv() {
+        const headers = ["Von (YYYY-MM-DD)","Bis (YYYY-MM-DD)","Spieler / Kategorie","Turnierkategorie","Termin","Notiz","Alternativgruppe","Ort","GC"];
+        const rows = [headers];
+        state.events.forEach(event => (event.playerNames?.length ? event.playerNames : [event.alternative ? "Altern." : event.general ? "Allg." : "Allg."]).forEach(player => rows.push([event.start,event.end || event.start,player,event.tournamentCategory || "",event.title,event.note || "",event.alternativeGroup || "",event.location || "",event.golfClub || ""])));
+        const link = document.createElement("a"), url = URL.createObjectURL(new Blob(["\uFEFF" + rows.map(row => row.map(csvCell).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" }));
+        link.href = url; link.download = `golf-jahresplanung-${state.year}.csv`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 0);
+      }
+      function exportWorkbook() {
+        if (!window.XLSX || !state.events.length) return;
+        const rows = [["Von (YYYY-MM-DD)","Bis (YYYY-MM-DD)","Spieler / Kategorie","Turnierkategorie","Termin","Notiz","Alternativgruppe","Ort","GC"]];
+        state.events.forEach(event => (event.playerNames?.length ? event.playerNames : [event.alternative ? "Altern." : event.general ? "Allg." : "Allg."]).forEach(player => rows.push([event.start,event.end || event.start,player,event.tournamentCategory || "",event.title,event.note || "",event.alternativeGroup || "",event.location || "",event.golfClub || ""])));
+        const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet(rows), "Golf-Jahresplanung"); XLSX.writeFile(workbook, `golf-jahresplanung-${state.year}.xlsx`);
+      }
+      function parseCsvRows(text, delimiter) {
+        const rows = []; let row = [], field = "", quoted = false;
+        for (let i = 0; i < text.length; i++) { const ch = text[i]; if (quoted) { if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; } else if (ch === '"') quoted = false; else field += ch; } else if (ch === '"') quoted = true; else if (ch === delimiter) { row.push(field); field = ""; } else if (ch === "\n" || ch === "\r") { if (ch === "\r" && text[i + 1] === "\n") i++; row.push(field); rows.push(row); row = []; field = ""; } else field += ch; }
+        if (field || row.length) { row.push(field); rows.push(row); } return rows.filter(items => items.some(value => String(value).trim()));
+      }
+      async function importCsv(file) {
+        const text = (await file.text()).replace(/^\uFEFF/, ""), first = text.split(/\r?\n/, 1)[0], delimiter = [";",",","\t"].sort((a,b) => first.split(b).length - first.split(a).length)[0];
+        const rows = parseCsvRows(text, delimiter), headers = (rows.shift() || []).map(norm), col = (...keys) => headers.findIndex(value => keys.includes(value));
+        const startCol = col("von (yyyy-mm-dd)","von","startdatum","datum"), endCol = col("bis (yyyy-mm-dd)","bis","enddatum"), playerCol = col("spieler / kategorie","spieler/kategorie","spieler","kategorie"), categoryCol = col("turnierkategorie","turnier kategorie"), titleCol = col("termin","titel","turnier"), noteCol = col("notiz","bemerkung"), groupCol = col("alternativgruppe","alternative gruppe"), locationCol = col("ort","location"), clubCol = col("gc","golfclub","golf club");
+        if (startCol < 0 || playerCol < 0 || titleCol < 0) throw Error("CSV-Kopfzeile benötigt Datum, Spieler/Kategorie und Termin.");
+        const incoming = rows.map((row,index) => { const from = dateValue(row[startCol], index + 2), to = row[endCol] ? dateValue(row[endCol], index + 2) : from, source = String(row[playerCol] || "Allg.").trim(), alternative = norm(source) === "altern." || norm(source) === "alternative", general = norm(source) === "allg." || norm(source) === "allgemein", title = String(row[titleCol] || "").trim(); if (!title) return null; return { start: from, end: to, title, playerNames: alternative || general ? [] : [source], alternative, general, tournamentCategory: row[categoryCol] || "", note: row[noteCol] || "", alternativeGroup: row[groupCol] || "", location: row[locationCol] || "", golfClub: row[clubCol] || "" }; }).filter(Boolean);
+        if (!incoming.length) throw Error("Keine Termine in der CSV-Datei gefunden.");
+        state.events = incoming; state.players = [...new Set(incoming.flatMap(event => event.playerNames))].sort((a,b) => a.localeCompare(b,"de")); state.source = file.name; state.year = Number(incoming[0].start.slice(0,4)); state.month = Number(incoming[0].start.slice(5,7)) - 1; state.view = "year"; persistCurrentPlan(); populate(); $("notice").classList.add("hidden"); $("content").classList.remove("hidden"); $("exportButton").disabled = false; $("csvExportButton").disabled = false; $("htmlExportButton").disabled = false; $("status").textContent = `${file.name} · ${incoming.length} Termine`; render();
+      }
+      async function importIcs(file) {
+        const lines = (await file.text()).replace(/\r?\n[ \t]/g, "").split(/\r?\n/), incoming = []; let event = null;
+        for (const line of lines) { if (line === "BEGIN:VEVENT") { event = {}; continue; } if (line === "END:VEVENT" && event) { if (event.start && event.title) incoming.push({ start: event.start, end: event.end || event.start, title: event.title, playerNames: [], alternative: false, general: true, note: event.note || "", alternativeGroup: "" }); event = null; continue; } if (!event) continue; const split = line.indexOf(":"); if (split < 0) continue; const [key] = line.slice(0,split).split(";"); const value = line.slice(split+1).replace(/\\n/gi,"\n").replace(/\\,/g,",").replace(/\\;/g,";"); const match = value.match(/^(\d{4})-?(\d{2})-?(\d{2})/); if (key === "DTSTART" && match) event.start = `${match[1]}-${match[2]}-${match[3]}`; if (key === "DTEND" && match) event.end = `${match[1]}-${match[2]}-${match[3]}`; if (key === "SUMMARY") event.title = value; if (key === "DESCRIPTION") event.note = value; }
+        if (!incoming.length) throw Error("Keine gültigen Termine in der ICS-Datei gefunden.");
+        if (!confirm(`${incoming.length} ICS-Termine als allgemeine Termine ergänzen?`)) return; state.events.push(...incoming); state.source = file.name; persistCurrentPlan(); populate(); $("notice").classList.add("hidden"); $("content").classList.remove("hidden"); $("exportButton").disabled = false; $("csvExportButton").disabled = false; $("htmlExportButton").disabled = false; $("status").textContent = `${file.name} · ${incoming.length} Termine importiert`; render();
+      }
+      function toggleActionMenu(open) { const panel = $("actionMenuPanel"); panel.classList.toggle("hidden", !open); $("actionMenuButton").setAttribute("aria-expanded", String(open)); }
+      $("actionMenuButton").addEventListener("click", () => toggleActionMenu($("actionMenuPanel").classList.contains("hidden")));
+      document.addEventListener("click", event => { if (!event.target.closest(".action-menu")) toggleActionMenu(false); });
+      document.addEventListener("keydown", event => { if (event.key === "Escape") toggleActionMenu(false); });
+      $("importButton").addEventListener("click", () => $("file").click()); $("exportButton").addEventListener("click", exportWorkbook);
+      $("csvImportButton").addEventListener("click", () => $("csvFile").click()); $("csvExportButton").addEventListener("click", exportCsv);
+      $("icsImportButton").addEventListener("click", () => $("icsFile").click()); $("htmlExportButton").addEventListener("click", exportHtmlSnapshot);
+      $("file").addEventListener("change", async event => { const files = [...(event.target.files || [])]; try { if (files.length) await loadFiles(files); } finally { event.target.value = ""; } });
+      $("csvFile").addEventListener("change", event => { const file = event.target.files?.[0]; if (file) importCsv(file).catch(error => showError(`CSV-Import fehlgeschlagen: ${error.message}`)); event.target.value = ""; });
+      $("icsFile").addEventListener("change", event => { const file = event.target.files?.[0]; if (file) importIcs(file).catch(error => showError(`ICS-Import fehlgeschlagen: ${error.message}`)); event.target.value = ""; });
+      $("year").addEventListener("change", event => { state.year = Number(event.target.value); render(); }); $("monthSelect").addEventListener("change", event => { state.month = Number(event.target.value); state.view = "month"; render(); });
+      $("player").addEventListener("change", event => { state.player = event.target.value; render(); }); $("type").addEventListener("change", event => { state.type = event.target.value; render(); });
+      $("prev").addEventListener("click", () => { const date = new Date(state.year, state.month + (state.view === "year" ? -12 : state.view === "three" ? -3 : -1), 1); state.year = date.getFullYear(); state.month = date.getMonth(); render(); });
+      $("next").addEventListener("click", () => { const date = new Date(state.year, state.month + (state.view === "year" ? 12 : state.view === "three" ? 3 : 1), 1); state.year = date.getFullYear(); state.month = date.getMonth(); render(); });
+      $("toggle").addEventListener("click", () => { state.view = state.view === "year" ? "three" : state.view === "three" ? "month" : "year"; render(); });
+      $("searchButton").addEventListener("click", () => { const input = $("searchInput"), open = input.classList.contains("hidden"); input.classList.toggle("hidden"); if (open) input.focus(); else { input.value = ""; state.query = ""; render(); } });
+      $("searchInput").addEventListener("input", event => { state.query = event.target.value; render(); });
+      populateMonthSelect(); const restored = restoreCurrentPlan();
+      if (!restored && location.protocol !== "file:") fetch("../golf-jahresplanung-2027.xlsx").then(response => { if (!response.ok) throw Error("Workbook not found"); return response.arrayBuffer(); }).then(buffer => loadFile(new File([buffer], "golf-jahresplanung-2027.xlsx"))).catch(() => {});
+    })();
+  </script>
+</body>
+</html>
